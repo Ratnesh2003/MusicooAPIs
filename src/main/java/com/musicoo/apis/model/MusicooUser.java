@@ -18,6 +18,6 @@ public class MusicooUser {
     private String email;
     private String password;
     private Role role = Role.ROLE_USER;
-    private Boolean isEnabled = false;
+    private Boolean isEnabled = true;
 
 }
