@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class EmailService {
-    private JavaMailSender javaMailSender;
+    private final JavaMailSender javaMailSender;
 
     public void sendMessageWithAttachment(String from, String to, String subject, String msg) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();

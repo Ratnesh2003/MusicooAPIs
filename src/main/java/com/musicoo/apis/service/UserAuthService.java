@@ -9,10 +9,12 @@ import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 
+import java.util.concurrent.ExecutionException;
+
 public interface UserAuthService {
-    ResponseEntity<?> registerUser(MusicooUser musicooUser, HttpServletRequest httpRequest) throws MessagingException;
-    ResponseEntity<?> sendUserVerificationLink(MusicooUser musicooUser, String baseURL) throws MessagingException;
-    ResponseEntity<?> confirmUserAccount(String confirmationToken);
+    ResponseEntity<?> registerUser(MusicooUser musicooUser, HttpServletRequest httpRequest) throws MessagingException, ExecutionException;
+    ResponseEntity<?> sendUserVerificationLink(MusicooUser musicooUser, String baseURL) throws MessagingException, ExecutionException;
+    ResponseEntity<?> confirmUserAccount(String confirmationToken, String email) throws ExecutionException;
     ResponseEntity<?> loginUser(LoginReq loginReq);
     ResponseEntity<?> forgotUserPassword(EmailReq emailReq);
     ResponseEntity<?> confirmUserOTP(ConfirmOTPReq confirmOTPReq);

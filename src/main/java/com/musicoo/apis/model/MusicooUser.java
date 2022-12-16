@@ -2,6 +2,8 @@ package com.musicoo.apis.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
 @NoArgsConstructor
