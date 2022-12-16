@@ -1,11 +1,11 @@
 package com.musicoo.apis.service;
 
-import com.musicoo.apis.model.Artist;
-import com.musicoo.apis.model.User;
+import com.musicoo.apis.model.MusicooArtist;
+import com.musicoo.apis.model.MusicooUser;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface LoadUserDetails {
-    public User loadUserByEmail(String email);
-    public Artist loadArtistByEmail(String email);
+    public MusicooUser loadUserByEmail(String email);
+    public MusicooArtist loadArtistByEmail(String email);
 }

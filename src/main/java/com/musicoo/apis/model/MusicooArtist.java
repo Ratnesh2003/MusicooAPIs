@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Artist {
+public class MusicooArtist {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

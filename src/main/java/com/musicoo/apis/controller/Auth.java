@@ -1,6 +1,6 @@
 package com.musicoo.apis.controller;
 
-import com.musicoo.apis.model.User;
+import com.musicoo.apis.model.MusicooUser;
 import com.musicoo.apis.service.Implementation.UserAuthServiceImpl;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,8 +15,8 @@ public class Auth {
     private UserAuthServiceImpl service;
 
     @PostMapping("/auth/signup")
-    public ResponseEntity<?> registerUser(@RequestBody User user, HttpServletRequest httpRequest) throws MessagingException {
-        return service.registerUser(user, httpRequest);
+    public ResponseEntity<?> registerUser(@RequestBody MusicooUser musicooUser, HttpServletRequest httpRequest) throws MessagingException {
+        return service.registerUser(musicooUser, httpRequest);
     }
 
     @RequestMapping(value = "/auth/confirm", method = {RequestMethod.GET, RequestMethod.POST})

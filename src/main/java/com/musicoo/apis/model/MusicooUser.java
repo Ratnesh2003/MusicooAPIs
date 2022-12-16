@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class User {
+public class MusicooUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

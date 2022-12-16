@@ -1,6 +1,6 @@
 package com.musicoo.apis.service.Implementation;
 
-import com.musicoo.apis.model.User;
+import com.musicoo.apis.model.MusicooUser;
 import com.musicoo.apis.model.UserEmailOTPConfirmation;
 import com.musicoo.apis.payload.request.ConfirmOTPReq;
 import com.musicoo.apis.payload.request.EmailReq;
@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.Date;
-import java.util.Optional;
 import java.util.UUID;
 
 
@@ -39,30 +38,30 @@ public class UserAuthServiceImpl implements UserAuthService {
 
 
     @Override
-    public ResponseEntity<?> registerUser(User user, HttpServletRequest httpRequest) throws MessagingException {
+    public ResponseEntity<?> registerUser(MusicooUser musicooUser, HttpServletRequest httpRequest) throws MessagingException {
         String baseURL =  ServletUriComponentsBuilder.fromRequestUri(httpRequest).replacePath(null).build().toUriString();
-        if (userRepo.existsByEmail(user.getEmail())) {
+        if (userRepo.existsByEmail(musicooUser.getEmail())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already in use");
         }
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepo.save(user);
+        musicooUser.setPassword(passwordEncoder.encode(musicooUser.getPassword()));
+        userRepo.save(musicooUser);
 
 
-        return sendUserVerificationLink(user, baseURL);
+        return sendUserVerificationLink(musicooUser, baseURL);
     }
 
     @Override
-    public ResponseEntity<?> sendUserVerificationLink(User user, String baseURL) throws MessagingException {
+    public ResponseEntity<?> sendUserVerificationLink(MusicooUser musicooUser, String baseURL) throws MessagingException {
         String confirmationToken = UUID.randomUUID().toString();
-        UserEmailOTPConfirmation userEmailOTPConfirmation = new UserEmailOTPConfirmation(user, confirmationToken, new Date(), 0, null);
+        UserEmailOTPConfirmation userEmailOTPConfirmation = new UserEmailOTPConfirmation(musicooUser, confirmationToken, new Date(), 0, null);
         userEmailOTPConfirmationRepo.save(userEmailOTPConfirmation);
 
         emailService.sendMessageWithAttachment(
                 "drreamboy9@gmail.com",
-                user.getEmail(),
+                musicooUser.getEmail(),
                 "Email Verification Musicoo",
-                "Hello " + user.getFirstName() + " " + user.getLastName() + ",<br><br> You registered an account on Musicoo, " +
+                "Hello " + musicooUser.getFirstName() + " " + musicooUser.getLastName() + ",<br><br> You registered an account on Musicoo, " +
                         "before being able to use your account you need to verify that this is your email address by clicking " +
                         "<a href=\""+ baseURL + "/api/auth/confirm-account?token=" + userEmailOTPConfirmation.getConfirmationToken() +
                         "\">here</a>" + ".<br><br>Kind Regards, Felix"
@@ -79,9 +78,9 @@ public class UserAuthServiceImpl implements UserAuthService {
         if(new Date().getTime() > tokenModel.getTokenCreationDate().getTime() + 5*60*1000) {
             return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT).body("Verification link expired");
         } else {
-            User user = userRepo.findUserById(tokenModel.getUser().getId());
-            user.setIsEnabled(true);
-            userRepo.save(user);
+            MusicooUser musicooUser = userRepo.findUserById(tokenModel.getMusicooUser().getId());
+            musicooUser.setIsEnabled(true);
+            userRepo.save(musicooUser);
             return ResponseEntity.status(HttpStatus.OK).body("Account verified");
 
         }

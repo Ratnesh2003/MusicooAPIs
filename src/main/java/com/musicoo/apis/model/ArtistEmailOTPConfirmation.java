@@ -15,14 +15,14 @@ public class ArtistEmailOTPConfirmation {
     private long id;
     @OneToOne
     @JoinColumn(name = "artist_id", referencedColumnName = "id")
-    private Artist artist;
+    private MusicooArtist musicooArtist;
     private String confirmationToken;
     private Date tokenCreationDate;
     private int otp;
     private Date otpCreationDate;
 
-    public ArtistEmailOTPConfirmation(Artist artist, String confirmationToken, Date tokenCreationDate, int otp, Date otpCreationDate) {
-        this.artist = artist;
+    public ArtistEmailOTPConfirmation(MusicooArtist musicooArtist, String confirmationToken, Date tokenCreationDate, int otp, Date otpCreationDate) {
+        this.musicooArtist = musicooArtist;
         this.confirmationToken = confirmationToken;
         this.tokenCreationDate = tokenCreationDate;
         this.otp = otp;
