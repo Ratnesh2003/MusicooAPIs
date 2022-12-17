@@ -5,15 +5,21 @@ import com.musicoo.apis.payload.request.ConfirmOTPReq;
 import com.musicoo.apis.payload.request.EmailReq;
 import com.musicoo.apis.payload.request.LoginReq;
 import com.musicoo.apis.payload.request.ResetPassReq;
+import com.musicoo.apis.payload.response.UserInfoResponse;
 import com.musicoo.apis.repository.ArtistRepo;
 import com.musicoo.apis.repository.UserRepo;
 import com.musicoo.apis.service.EmailService;
 import com.musicoo.apis.service.UserAuthService;
+import com.musicoo.apis.service.jwt.JwtUtil;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -28,10 +34,12 @@ import static org.springframework.data.util.CastUtils.cast;
 @Service
 public class UserAuthServiceImpl implements UserAuthService {
     private final UserRepo userRepo;
-    private final ArtistRepo artistRepo;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
     private final TokenOrOTPServiceImpl tokenOrOTPService;
+    private final JwtUtil jwtUtil;
+    private final UserDetailsServiceImpl userDetailsService;
+//    private final AuthenticationManager authenticationManager;
 
 
 
@@ -41,10 +49,7 @@ public class UserAuthServiceImpl implements UserAuthService {
         if (userRepo.existsByEmail(musicooUser.getEmail())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already in use");
         }
-
         musicooUser.setPassword(passwordEncoder.encode(musicooUser.getPassword()));
-
-
         return sendUserVerificationLink(musicooUser, baseURL);
     }
 
@@ -80,7 +85,31 @@ public class UserAuthServiceImpl implements UserAuthService {
 
     @Override
     public ResponseEntity<?> loginUser(LoginReq loginReq) {
-        return null;
+        MusicooUser musicooUser = userRepo.findByEmail(loginReq.getEmail());
+        UserDetailsImpl userDetails = userDetailsService.loadUserByUsername(loginReq.getEmail());
+        try {
+            if(passwordEncoder.matches(loginReq.getPassword(), musicooUser.getPassword())) {
+                String jwtCookie = jwtUtil.generateToken(userDetails);
+                return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie)
+                        .body(new UserInfoResponse(userDetails.getId(),
+                                userDetails.getEmail(), userDetails.getFirstName(), userDetails.getLastName(), userDetails.getRole()));
+//                this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginReq.getEmail(), loginReq.getPassword()));
+            } else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid Email or Password"); //password incorrect
+            }
+        } catch (UsernameNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Email or Password"); //email incorrect
+        }
+//        if (userDetails == null) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+//        }
+//        if (passwordEncoder.matches(loginReq.getPassword(), musicooUser.getPassword())) {
+
+//            return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie)
+//                    .body(new UserInfoResponse(musicooUser.getId(), musicooUser.getFirstName(), musicooUser.getLastName(), musicooUser.getEmail(), musicooUser.getRole()));
+//        } else {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Password");
+//        }
     }
 
     @Override

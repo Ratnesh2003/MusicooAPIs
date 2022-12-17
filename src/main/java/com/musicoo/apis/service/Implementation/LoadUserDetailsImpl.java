@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class LoadUserDetailsImpl implements LoadUserDetails {
-    private UserRepo userRepo;
-    private ArtistRepo artistRepo;
+    private final UserRepo userRepo;
+    private final ArtistRepo artistRepo;
 
     @Override
     public MusicooUser loadUserByEmail(String email) {
