@@ -2,6 +2,7 @@ package com.musicoo.apis.controller;
 
 import com.musicoo.apis.model.MusicooUser;
 import com.musicoo.apis.payload.request.LoginReq;
+import com.musicoo.apis.payload.request.TokenRefreshReq;
 import com.musicoo.apis.service.Implementation.UserAuthServiceImpl;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,6 +35,11 @@ public class Auth {
     @PostMapping("/auth/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginReq loginReq) {
         return service.loginUser(loginReq);
+    }
+
+    @PostMapping("/auth/refresh-token")
+    public ResponseEntity<?> refreshToken(@RequestBody TokenRefreshReq tokenRefreshReq) {
+        return service.generateAccessToken(tokenRefreshReq.getRefreshToken());
     }
 
     @GetMapping("/test")

@@ -15,7 +15,8 @@ import java.util.function.Function;
 @NoArgsConstructor
 public class JwtUtil {
 
-    public static final long JWT_TOKEN_VALIDITY = 24 * 60 * 60;
+    public static final long ACCESS_JWT_TOKEN_VALIDITY =  1 * 60;
+    public static final long REFRESH_JWT_TOKEN_VALIDITY = 30 * 24 * 60 * 60;
 
     private String secret = "FelixSpringSecurityIamWritingThisJustToExtendTheSizeOfTheSecurityKeyIThinkItShouldWorkNow";
 
@@ -50,12 +51,18 @@ public class JwtUtil {
         return doGenerateToken(claims, userDetails.getEmail());
     }
 
+    public String generateTokenFromEmail(String email) {
+        return Jwts.builder().setSubject(email).setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + REFRESH_JWT_TOKEN_VALIDITY * 1000))
+                .signWith(SignatureAlgorithm.HS512, secret).compact();
+    }
+
 
     //   compaction of the JWT to a URL-safe string
     private String doGenerateToken(Map<String, Object> claims, String subject) {
 
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
+                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_JWT_TOKEN_VALIDITY * 1000))
                 .signWith(SignatureAlgorithm.HS512, secret).compact();
     }
 

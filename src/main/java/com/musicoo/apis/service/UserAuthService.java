@@ -20,4 +20,5 @@ public interface UserAuthService {
     ResponseEntity<?> confirmUserOTP(ConfirmOTPReq confirmOTPReq);
     ResponseEntity<?> changeUserPassword(ConfirmOTPReq confirmOTPReq);
     ResponseEntity<?> resetUserPassword(ResetPassReq resetPassReq);
+    ResponseEntity<?> generateAccessToken(String refreshToken);
 }

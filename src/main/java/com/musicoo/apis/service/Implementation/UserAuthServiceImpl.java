@@ -5,6 +5,7 @@ import com.musicoo.apis.payload.request.ConfirmOTPReq;
 import com.musicoo.apis.payload.request.EmailReq;
 import com.musicoo.apis.payload.request.LoginReq;
 import com.musicoo.apis.payload.request.ResetPassReq;
+import com.musicoo.apis.payload.response.TokenRefreshResponse;
 import com.musicoo.apis.payload.response.UserInfoResponse;
 import com.musicoo.apis.repository.ArtistRepo;
 import com.musicoo.apis.repository.UserRepo;
@@ -90,26 +91,23 @@ public class UserAuthServiceImpl implements UserAuthService {
         try {
             if(passwordEncoder.matches(loginReq.getPassword(), musicooUser.getPassword())) {
                 String jwtCookie = jwtUtil.generateToken(userDetails);
+                String refreshJwtCookie = jwtUtil.generateTokenFromEmail(userDetails.getEmail());
                 return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie)
-                        .body(new UserInfoResponse(userDetails.getId(),
-                                userDetails.getEmail(), userDetails.getFirstName(), userDetails.getLastName(), userDetails.getRole()));
-//                this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginReq.getEmail(), loginReq.getPassword()));
+                        .body(new UserInfoResponse(
+                                userDetails.getId(),
+                                userDetails.getEmail(),
+                                userDetails.getFirstName(),
+                                userDetails.getLastName(),
+                                userDetails.getRole(),
+                                jwtCookie,
+                                refreshJwtCookie));
             } else {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid Email or Password"); //password incorrect
             }
         } catch (UsernameNotFoundException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Email or Password"); //email incorrect
         }
-//        if (userDetails == null) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-//        }
-//        if (passwordEncoder.matches(loginReq.getPassword(), musicooUser.getPassword())) {
 
-//            return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie)
-//                    .body(new UserInfoResponse(musicooUser.getId(), musicooUser.getFirstName(), musicooUser.getLastName(), musicooUser.getEmail(), musicooUser.getRole()));
-//        } else {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Password");
-//        }
     }
 
     @Override
@@ -130,5 +128,16 @@ public class UserAuthServiceImpl implements UserAuthService {
     @Override
     public ResponseEntity<?> resetUserPassword(ResetPassReq resetPassReq) {
         return null;
+    }
+
+    @Override
+    public ResponseEntity<?> generateAccessToken(String refreshToken) {
+        String email = jwtUtil.getEmailFromToken(refreshToken);
+        UserDetailsImpl userDetails = userDetailsService.loadUserByUsername(email);
+        if (jwtUtil.validateToken(refreshToken, userDetails)) {
+            return ResponseEntity.status(HttpStatus.OK).body(new TokenRefreshResponse(jwtUtil.generateToken(userDetails), refreshToken));
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Token");
+        }
     }
 }
