@@ -1,5 +1,6 @@
 package com.musicoo.apis.service.Implementation;
 
+import com.google.common.cache.CacheLoader;
 import com.musicoo.apis.model.MusicooUser;
 import com.musicoo.apis.payload.request.ConfirmOTPReq;
 import com.musicoo.apis.payload.request.EmailReq;
@@ -47,7 +48,7 @@ public class UserAuthServiceImpl implements UserAuthService {
     @Override
     public ResponseEntity<?> registerUser(MusicooUser musicooUser, HttpServletRequest httpRequest) throws MessagingException, ExecutionException {
         String baseURL =  ServletUriComponentsBuilder.fromRequestUri(httpRequest).replacePath(null).build().toUriString();
-        if (userRepo.existsByEmail(musicooUser.getEmail())) {
+        if (userRepo.existsByEmailIgnoreCase(musicooUser.getEmail())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already in use");
         }
         musicooUser.setPassword(passwordEncoder.encode(musicooUser.getPassword()));
@@ -66,7 +67,7 @@ public class UserAuthServiceImpl implements UserAuthService {
                 "Hello " + musicooUser.getFirstName() + " " + musicooUser.getLastName() + ",<br><br> You registered an account on Musicoo, " +
                         "before being able to use your account you need to verify that this is your email address by clicking " +
                         "<a href=\""+ baseURL + "/api/auth/confirm?token=" + tokenOrOTPService.getTokenOrOTP(1, musicooUser.getEmail()).toString() +
-                        "&email=" + musicooUser.getEmail() + "\">here</a>" + ".<br><br>Kind Regards, Felix"
+                        "&email=" + musicooUser.getEmail() + "\">here</a>" + ".<br><br>Kind Regards, Musicoo"
         );
         return ResponseEntity.status(HttpStatus.OK).body("Please check your email for verification");
     }
@@ -86,7 +87,7 @@ public class UserAuthServiceImpl implements UserAuthService {
 
     @Override
     public ResponseEntity<?> loginUser(LoginReq loginReq) {
-        MusicooUser musicooUser = userRepo.findByEmail(loginReq.getEmail());
+        MusicooUser musicooUser = userRepo.findByEmailIgnoreCase(loginReq.getEmail());
         UserDetailsImpl userDetails = userDetailsService.loadUserByUsername(loginReq.getEmail());
         try {
             if(passwordEncoder.matches(loginReq.getPassword(), musicooUser.getPassword())) {
@@ -111,18 +112,60 @@ public class UserAuthServiceImpl implements UserAuthService {
     }
 
     @Override
-    public ResponseEntity<?> forgotUserPassword(EmailReq emailReq) {
-        return null;
+    public ResponseEntity<?> forgotUserPassword(String email) throws ExecutionException, MessagingException {
+        MusicooUser user = userRepo.findByEmailIgnoreCase(email);
+        if (user != null) {
+            int otp = (int)tokenOrOTPService.generateTokenOrOTP(2, email);
+            emailService.sendMessageWithAttachment(
+                    "drreamboy9@gmail.com",
+                    email, "RESET PASSWORD MUSICOO",
+                    "OTP to reset password:  <b>"  + Integer.toString(otp) + "</b>"
+            );
+            return ResponseEntity.ok().body("OTP sent on the given mail");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found with the given email");
+        }
     }
 
     @Override
-    public ResponseEntity<?> confirmUserOTP(ConfirmOTPReq confirmOTPReq) {
-        return null;
+    public ResponseEntity<?> confirmUserOTP(ConfirmOTPReq confirmOTPReq) throws ExecutionException, CacheLoader.InvalidCacheLoadException {
+
+        try {
+            System.out.println(tokenOrOTPService.getTokenOrOTP(2, confirmOTPReq.getEmail()));
+            if (Objects.equals(tokenOrOTPService.getTokenOrOTP(2, confirmOTPReq.getEmail()), confirmOTPReq.getOtp())) {
+                return ResponseEntity.status(HttpStatus.OK).body("OTP Verified");
+            } else if(tokenOrOTPService.getTokenOrOTP(2, confirmOTPReq.getEmail()) == null){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Token Expired");
+            } else {
+                return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Incorrect OTP");
+            }
+        } catch (CacheLoader.InvalidCacheLoadException e) {
+            return null;
+        }
+
+
     }
 
     @Override
-    public ResponseEntity<?> changeUserPassword(ConfirmOTPReq confirmOTPReq) {
-        return null;
+    public ResponseEntity<?> changeUserPassword(ConfirmOTPReq confirmOTPReq) throws ExecutionException, CacheLoader.InvalidCacheLoadException {
+
+        try {
+            if (Objects.equals(tokenOrOTPService.getTokenOrOTP(2, confirmOTPReq.getEmail()), confirmOTPReq.getOtp())) {
+                MusicooUser user = userRepo.findByEmailIgnoreCase(confirmOTPReq.getEmail());
+                user.setPassword(passwordEncoder.encode(confirmOTPReq.getPassword()));
+                userRepo.save(user);
+                tokenOrOTPService.clearTokenOrOTP(2, confirmOTPReq.getEmail());
+                return ResponseEntity.status(HttpStatus.OK).body("Password changed successfully");
+            } else if(tokenOrOTPService.getTokenOrOTP(2, confirmOTPReq.getEmail()) == null){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Token Expired");
+            } else {
+                return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Incorrect OTP");
+            }
+        } catch (CacheLoader.InvalidCacheLoadException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token Expired");
+        }
+
+
     }
 
     @Override

@@ -6,7 +6,7 @@ import java.util.concurrent.ExecutionException;
 
 public interface TokenOrOTPService {
     public void cacheUserData(MusicooUser musicooUser);
-    public void generateTokenOrOTP(int choice, String key);
+    public Object generateTokenOrOTP(int choice, String key);
     public <T> T getTokenOrOTP(int choice, String key) throws ExecutionException;
     public void clearTokenOrOTP(int choice, String key);
 }

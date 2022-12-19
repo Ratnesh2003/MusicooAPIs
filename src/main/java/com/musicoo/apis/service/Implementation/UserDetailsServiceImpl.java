@@ -15,7 +15,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetailsImpl loadUserByUsername(String email) throws UsernameNotFoundException {
-        MusicooUser musicooUser = userRepo.findByEmail(email);
+        MusicooUser musicooUser = userRepo.findByEmailIgnoreCase(email);
         if (musicooUser != null) {
             return UserDetailsImpl.build(musicooUser);
         } else {

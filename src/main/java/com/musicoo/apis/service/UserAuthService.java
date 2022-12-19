@@ -16,9 +16,9 @@ public interface UserAuthService {
     ResponseEntity<?> sendUserVerificationLink(MusicooUser musicooUser, String baseURL) throws MessagingException, ExecutionException;
     ResponseEntity<?> confirmUserAccount(String confirmationToken, String email) throws ExecutionException;
     ResponseEntity<?> loginUser(LoginReq loginReq);
-    ResponseEntity<?> forgotUserPassword(EmailReq emailReq);
-    ResponseEntity<?> confirmUserOTP(ConfirmOTPReq confirmOTPReq);
-    ResponseEntity<?> changeUserPassword(ConfirmOTPReq confirmOTPReq);
+    ResponseEntity<?> forgotUserPassword(String email) throws ExecutionException, MessagingException;
+    ResponseEntity<?> confirmUserOTP(ConfirmOTPReq confirmOTPReq) throws ExecutionException;
+    ResponseEntity<?> changeUserPassword(ConfirmOTPReq confirmOTPReq) throws ExecutionException;
     ResponseEntity<?> resetUserPassword(ResetPassReq resetPassReq);
     ResponseEntity<?> generateAccessToken(String refreshToken);
 }

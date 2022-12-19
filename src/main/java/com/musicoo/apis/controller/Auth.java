@@ -1,6 +1,8 @@
 package com.musicoo.apis.controller;
 
 import com.musicoo.apis.model.MusicooUser;
+import com.musicoo.apis.payload.request.ConfirmOTPReq;
+import com.musicoo.apis.payload.request.EmailReq;
 import com.musicoo.apis.payload.request.LoginReq;
 import com.musicoo.apis.payload.request.TokenRefreshReq;
 import com.musicoo.apis.service.Implementation.UserAuthServiceImpl;
@@ -10,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -40,6 +43,21 @@ public class Auth {
     @PostMapping("/auth/refresh-token")
     public ResponseEntity<?> refreshToken(@RequestBody TokenRefreshReq tokenRefreshReq) {
         return service.generateAccessToken(tokenRefreshReq.getRefreshToken());
+    }
+
+    @PostMapping("/auth/forgot-password")
+    public ResponseEntity<?> forgotPassword(@Valid @RequestBody EmailReq emailReq) throws MessagingException, ExecutionException {
+        return service.forgotUserPassword(emailReq.getEmail());
+    }
+
+    @PostMapping("/auth/confirm-otp")
+    public ResponseEntity<?> confirmOtp(@Valid @RequestBody ConfirmOTPReq confirmOTPReq) throws ExecutionException {
+        return service.confirmUserOTP(confirmOTPReq);
+    }
+
+    @PostMapping("/auth/change-password")
+    public ResponseEntity<?> changePassword(@RequestBody ConfirmOTPReq confirmOTPReq) throws ExecutionException {
+        return service.changeUserPassword(confirmOTPReq);
     }
 
     @GetMapping("/test")

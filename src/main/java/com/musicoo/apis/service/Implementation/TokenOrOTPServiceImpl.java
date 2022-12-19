@@ -56,37 +56,31 @@ public class TokenOrOTPServiceImpl implements TokenOrOTPService {
     }
 
     @Override
-    public void generateTokenOrOTP(int choice, String key) {
+    public Object generateTokenOrOTP(int choice, String key) {
         if (choice == 1) {
             String confirmationToken = UUID.randomUUID().toString();
             tokenCache.put(key, confirmationToken);
+            return null;
         } else {
             Random random = new Random();
             int otp = random.nextInt(899999) + 100000;
             otpCache.put(key, otp);
+            return otp;
         }
     }
 
     @Override
-    public Object getTokenOrOTP(int choice, String key) throws ExecutionException {
-        if (choice == 1) {
-            try {
+    public Object getTokenOrOTP(int choice, String key) throws CacheLoader.InvalidCacheLoadException {
+        try{
+            if (choice == 1) {
                 return tokenCache.get(key);
-            } catch (ExecutionException e) {
-                return null;
-            }
-        } else if (choice == 2){
-            try {
+            } else if (choice == 2) {
                 return otpCache.get(key);
-            } catch (ExecutionException e) {
-                return null;
-            }
-        } else {
-            try {
+            } else {
                 return userCache.get(key);
-            } catch (ExecutionException e) {
-                return null;
             }
+        } catch (ExecutionException | CacheLoader.InvalidCacheLoadException e) {
+            return null;
         }
     }
 

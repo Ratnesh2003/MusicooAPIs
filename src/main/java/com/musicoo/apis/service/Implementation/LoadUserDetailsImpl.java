@@ -16,7 +16,7 @@ public class LoadUserDetailsImpl implements LoadUserDetails {
 
     @Override
     public MusicooUser loadUserByEmail(String email) {
-        return userRepo.findByEmail(email);
+        return userRepo.findByEmailIgnoreCase(email);
     }
 
     @Override
