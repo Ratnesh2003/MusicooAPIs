@@ -2,10 +2,7 @@ package com.musicoo.apis.service.Implementation;
 
 import com.google.common.cache.CacheLoader;
 import com.musicoo.apis.model.MusicooUser;
-import com.musicoo.apis.payload.request.ConfirmOTPReq;
-import com.musicoo.apis.payload.request.EmailReq;
-import com.musicoo.apis.payload.request.LoginReq;
-import com.musicoo.apis.payload.request.ResetPassReq;
+import com.musicoo.apis.payload.request.*;
 import com.musicoo.apis.payload.response.TokenRefreshResponse;
 import com.musicoo.apis.payload.response.UserInfoResponse;
 import com.musicoo.apis.repository.ArtistRepo;
@@ -16,6 +13,7 @@ import com.musicoo.apis.service.jwt.JwtUtil;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -129,9 +127,7 @@ public class UserAuthServiceImpl implements UserAuthService {
 
     @Override
     public ResponseEntity<?> confirmUserOTP(ConfirmOTPReq confirmOTPReq) throws ExecutionException, CacheLoader.InvalidCacheLoadException {
-
         try {
-            System.out.println(tokenOrOTPService.getTokenOrOTP(2, confirmOTPReq.getEmail()));
             if (Objects.equals(tokenOrOTPService.getTokenOrOTP(2, confirmOTPReq.getEmail()), confirmOTPReq.getOtp())) {
                 return ResponseEntity.status(HttpStatus.OK).body("OTP Verified");
             } else if(tokenOrOTPService.getTokenOrOTP(2, confirmOTPReq.getEmail()) == null){
@@ -142,9 +138,9 @@ public class UserAuthServiceImpl implements UserAuthService {
         } catch (CacheLoader.InvalidCacheLoadException e) {
             return null;
         }
-
-
     }
+
+
 
     @Override
     public ResponseEntity<?> changeUserPassword(ConfirmOTPReq confirmOTPReq) throws ExecutionException, CacheLoader.InvalidCacheLoadException {

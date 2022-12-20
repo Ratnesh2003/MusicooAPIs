@@ -60,6 +60,11 @@ public class Auth {
         return service.changeUserPassword(confirmOTPReq);
     }
 
+//    @PostMapping("/auth/google")
+//    public ResponseEntity<?> googleLogin(@RequestBody TokenRefreshReq tokenRefreshReq) {
+//        return service.googleLogin(tokenRefreshReq.getRefreshToken());
+//    }
+
     @GetMapping("/test")
     public ResponseEntity<?> testApi() {
         return ResponseEntity.ok().body("This is a test API");

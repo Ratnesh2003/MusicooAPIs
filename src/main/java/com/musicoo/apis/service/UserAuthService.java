@@ -21,4 +21,5 @@ public interface UserAuthService {
     ResponseEntity<?> changeUserPassword(ConfirmOTPReq confirmOTPReq) throws ExecutionException;
     ResponseEntity<?> resetUserPassword(ResetPassReq resetPassReq);
     ResponseEntity<?> generateAccessToken(String refreshToken);
+//    ResponseEntity<?> googleLogin(String googleAuthToken);
 }
