@@ -4,6 +4,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.musicoo.apis.model.MusicooUser;
+import com.musicoo.apis.payload.request.RegisterReq;
 import com.musicoo.apis.service.TokenOrOTPService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class TokenOrOTPServiceImpl implements TokenOrOTPService {
     private static final Integer EXPIRE_MINUTES = 5;
     private LoadingCache<String, String> tokenCache;
     private LoadingCache<String, Integer> otpCache;
-    private LoadingCache<String, MusicooUser> userCache;
+    private LoadingCache<String, RegisterReq> userCache;
 
     public TokenOrOTPServiceImpl() {
         super();
@@ -42,17 +43,17 @@ public class TokenOrOTPServiceImpl implements TokenOrOTPService {
                 });
         userCache = CacheBuilder.newBuilder().
                 expireAfterWrite(EXPIRE_MINUTES, TimeUnit.MINUTES)
-                .build(new CacheLoader<String, MusicooUser>() {
+                .build(new CacheLoader<String, RegisterReq>() {
                     @Override
-                    public MusicooUser load(String s) throws Exception {
+                    public RegisterReq load(String s) throws Exception {
                         return null;
                     }
                 });
     }
 
     @Override
-    public void cacheUserData(MusicooUser musicooUser) {
-        userCache.put(musicooUser.getEmail(), musicooUser);
+    public void cacheUserData(RegisterReq registerReq) {
+        userCache.put(registerReq.getEmail(), registerReq);
     }
 
     @Override

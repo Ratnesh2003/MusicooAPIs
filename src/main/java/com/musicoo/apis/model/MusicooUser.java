@@ -2,8 +2,6 @@ package com.musicoo.apis.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
 @NoArgsConstructor
@@ -19,5 +17,14 @@ public class MusicooUser {
     private String password;
     private Role role = Role.ROLE_USER;
     private Boolean isEnabled = true;
+    @Enumerated(EnumType.STRING)
+    private Provider provider;
 
+    public MusicooUser(String firstName, String lastName, String email, String password, Provider provider) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.provider = provider;
+    }
 }

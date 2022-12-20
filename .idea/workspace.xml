@@ -8,12 +8,26 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MusicooAPIs.iml" beforeDir="false" afterPath="$PROJECT_DIR$/MusicooAPIs.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/config/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/controller/Auth.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/controller/Auth.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/model/MusicooUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/model/MusicooUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/payload/request/TokenRefreshReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/payload/request/TokenRefreshReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/TokenOrOTPServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/TokenOrOTPServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/UserAuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/UserAuthServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/TokenOrOTPService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/TokenOrOTPService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/UserAuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/UserAuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/musicoo/apis/config/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/musicoo/apis/config/SecurityConfig.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/musicoo/apis/controller/Auth.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/musicoo/apis/controller/Auth.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/musicoo/apis/model/MusicooUser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/musicoo/apis/model/MusicooUser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/musicoo/apis/payload/request/GoogleUserData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/musicoo/apis/service/Implementation/TokenOrOTPServiceImpl$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/musicoo/apis/service/Implementation/TokenOrOTPServiceImpl$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/musicoo/apis/service/Implementation/TokenOrOTPServiceImpl$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/musicoo/apis/service/Implementation/TokenOrOTPServiceImpl$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/musicoo/apis/service/Implementation/TokenOrOTPServiceImpl$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/musicoo/apis/service/Implementation/TokenOrOTPServiceImpl$3.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/musicoo/apis/service/Implementation/TokenOrOTPServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/musicoo/apis/service/Implementation/TokenOrOTPServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/musicoo/apis/service/Implementation/UserAuthServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/musicoo/apis/service/Implementation/UserAuthServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/musicoo/apis/service/TokenOrOTPService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/musicoo/apis/service/TokenOrOTPService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/musicoo/apis/service/UserAuthService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/musicoo/apis/service/UserAuthService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -24,8 +38,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
         <option value="Interface" />
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
@@ -93,7 +107,8 @@
       <workItem from="1671254487461" duration="23412000" />
       <workItem from="1671347040070" duration="14310000" />
       <workItem from="1671446737952" duration="14635000" />
-      <workItem from="1671533041488" duration="1060000" />
+      <workItem from="1671533041488" duration="8021000" />
+      <workItem from="1671561263329" duration="6721000" />
     </task>
     <servers />
   </component>

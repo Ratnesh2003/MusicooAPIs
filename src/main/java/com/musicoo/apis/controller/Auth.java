@@ -1,10 +1,7 @@
 package com.musicoo.apis.controller;
 
 import com.musicoo.apis.model.MusicooUser;
-import com.musicoo.apis.payload.request.ConfirmOTPReq;
-import com.musicoo.apis.payload.request.EmailReq;
-import com.musicoo.apis.payload.request.LoginReq;
-import com.musicoo.apis.payload.request.TokenRefreshReq;
+import com.musicoo.apis.payload.request.*;
 import com.musicoo.apis.service.Implementation.UserAuthServiceImpl;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,8 +23,8 @@ public class Auth {
 //    }
 
     @PostMapping("/auth/signup")
-    public ResponseEntity<?> registerUser(@RequestBody MusicooUser musicooUser, HttpServletRequest httpRequest) throws MessagingException, ExecutionException {
-        return service.registerUser(musicooUser, httpRequest);
+    public ResponseEntity<?> registerUser(@RequestBody RegisterReq registerReq, HttpServletRequest httpRequest) throws MessagingException, ExecutionException {
+        return service.registerUser(registerReq, httpRequest);
     }
 
     @RequestMapping(value = "/auth/confirm", method = {RequestMethod.GET, RequestMethod.POST})
@@ -60,10 +57,15 @@ public class Auth {
         return service.changeUserPassword(confirmOTPReq);
     }
 
-//    @PostMapping("/auth/google")
-//    public ResponseEntity<?> googleLogin(@RequestBody TokenRefreshReq tokenRefreshReq) {
-//        return service.googleLogin(tokenRefreshReq.getRefreshToken());
-//    }
+    @PostMapping("/oauth/google/register")
+    public ResponseEntity<?> googleRegister(@RequestBody TokenRefreshReq tokenRefreshReq, HttpServletRequest httpRequest) throws MessagingException, ExecutionException {
+        return service.googleRegister(tokenRefreshReq.getRefreshToken(), httpRequest);
+    }
+
+    @PostMapping("/oauth/google/login")
+    public ResponseEntity<?> googleLogin(@RequestBody TokenRefreshReq tokenRefreshReq) {
+        return service.googleLogin(tokenRefreshReq.getRefreshToken());
+    }
 
     @GetMapping("/test")
     public ResponseEntity<?> testApi() {

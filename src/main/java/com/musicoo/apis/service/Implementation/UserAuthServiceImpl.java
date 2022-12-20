@@ -1,7 +1,9 @@
 package com.musicoo.apis.service.Implementation;
 
 import com.google.common.cache.CacheLoader;
+import com.musicoo.apis.helper.TokenDecoder;
 import com.musicoo.apis.model.MusicooUser;
+import com.musicoo.apis.model.Provider;
 import com.musicoo.apis.payload.request.*;
 import com.musicoo.apis.payload.response.TokenRefreshResponse;
 import com.musicoo.apis.payload.response.UserInfoResponse;
@@ -10,9 +12,13 @@ import com.musicoo.apis.repository.UserRepo;
 import com.musicoo.apis.service.EmailService;
 import com.musicoo.apis.service.UserAuthService;
 import com.musicoo.apis.service.jwt.JwtUtil;
+import com.nimbusds.jose.shaded.gson.Gson;
+import com.nimbusds.jose.shaded.gson.JsonObject;
+import com.nimbusds.jose.shaded.gson.JsonParser;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import net.minidev.json.parser.JSONParser;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -39,33 +45,34 @@ public class UserAuthServiceImpl implements UserAuthService {
     private final TokenOrOTPServiceImpl tokenOrOTPService;
     private final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userDetailsService;
+    private final TokenDecoder tokenDecoder;
 //    private final AuthenticationManager authenticationManager;
 
 
 
     @Override
-    public ResponseEntity<?> registerUser(MusicooUser musicooUser, HttpServletRequest httpRequest) throws MessagingException, ExecutionException {
+    public ResponseEntity<?> registerUser(RegisterReq registerReq, HttpServletRequest httpRequest) throws MessagingException, ExecutionException {
         String baseURL =  ServletUriComponentsBuilder.fromRequestUri(httpRequest).replacePath(null).build().toUriString();
-        if (userRepo.existsByEmailIgnoreCase(musicooUser.getEmail())) {
+        if (userRepo.existsByEmailIgnoreCase(registerReq.getEmail())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already in use");
         }
-        musicooUser.setPassword(passwordEncoder.encode(musicooUser.getPassword()));
-        return sendUserVerificationLink(musicooUser, baseURL);
+        registerReq.setPassword(passwordEncoder.encode(registerReq.getPassword()));
+        return sendUserVerificationLink(registerReq, baseURL);
     }
 
     @Override
-    public ResponseEntity<?> sendUserVerificationLink(MusicooUser musicooUser, String baseURL) throws MessagingException, ExecutionException {
-        tokenOrOTPService.generateTokenOrOTP(1, musicooUser.getEmail());
-        tokenOrOTPService.cacheUserData(musicooUser);
+    public ResponseEntity<?> sendUserVerificationLink(RegisterReq registerReq, String baseURL) throws MessagingException, ExecutionException {
+        tokenOrOTPService.generateTokenOrOTP(1, registerReq.getEmail());
+        tokenOrOTPService.cacheUserData(registerReq);
 
         emailService.sendMessageWithAttachment(
                 "drreamboy9@gmail.com",
-                musicooUser.getEmail(),
+                registerReq.getEmail(),
                 "Email Verification Musicoo",
-                "Hello " + musicooUser.getFirstName() + " " + musicooUser.getLastName() + ",<br><br> You registered an account on Musicoo, " +
+                "Hello " + registerReq.getFirstName() + " " + registerReq.getLastName() + ",<br><br> You registered an account on Musicoo, " +
                         "before being able to use your account you need to verify that this is your email address by clicking " +
-                        "<a href=\""+ baseURL + "/api/auth/confirm?token=" + tokenOrOTPService.getTokenOrOTP(1, musicooUser.getEmail()).toString() +
-                        "&email=" + musicooUser.getEmail() + "\">here</a>" + ".<br><br>Kind Regards, Musicoo"
+                        "<a href=\""+ baseURL + "/api/auth/confirm?token=" + tokenOrOTPService.getTokenOrOTP(1, registerReq.getEmail()).toString() +
+                        "&email=" + registerReq.getEmail() + "\">here</a>" + ".<br><br>Kind Regards, Musicoo"
         );
         return ResponseEntity.status(HttpStatus.OK).body("Please check your email for verification");
     }
@@ -73,7 +80,16 @@ public class UserAuthServiceImpl implements UserAuthService {
     @Override
     public ResponseEntity<?> confirmUserAccount(String confirmationToken, String email) throws ExecutionException {
         if (Objects.equals(tokenOrOTPService.getTokenOrOTP(1, email).toString(), confirmationToken)) {
-            userRepo.save(cast(tokenOrOTPService.getTokenOrOTP(3, email)));
+            RegisterReq registerReq = cast(tokenOrOTPService.getTokenOrOTP(3, email));
+            MusicooUser musicooUser = new MusicooUser(
+                    registerReq.getFirstName(),
+                    registerReq.getLastName(),
+                    registerReq.getEmail(),
+                    registerReq.getPassword(),
+                    registerReq.getProvider()
+            );
+            userRepo.save(musicooUser);
+//            userRepo.save(cast(tokenOrOTPService.getTokenOrOTP(3, email)));
             tokenOrOTPService.clearTokenOrOTP(1, email);
             tokenOrOTPService.clearTokenOrOTP(3, email);
             return ResponseEntity.status(HttpStatus.OK).body("Account verified");
@@ -178,5 +194,33 @@ public class UserAuthServiceImpl implements UserAuthService {
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Token");
         }
+    }
+
+    @Override
+    public ResponseEntity<?> googleRegister(String googleAuthToken, HttpServletRequest httpRequest) throws MessagingException, ExecutionException {
+        RegisterReq registerReq = tokenDecoder.getRegisterRequestFromToken(googleAuthToken);
+        return registerUser(registerReq, httpRequest);
+    }
+
+    @Override
+    public ResponseEntity<?> googleLogin(String googleAuthToken) throws UsernameNotFoundException {
+        try {
+            RegisterReq registerReq = tokenDecoder.getRegisterRequestFromToken(googleAuthToken);
+            UserDetailsImpl userDetails = userDetailsService.loadUserByUsername(registerReq.getEmail());
+            String jwtCookie = jwtUtil.generateToken(userDetails);
+            String refreshJwtCookie = jwtUtil.generateTokenFromEmail(userDetails.getEmail());
+            return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie)
+                    .body(new UserInfoResponse(
+                            userDetails.getId(),
+                            userDetails.getEmail(),
+                            userDetails.getFirstName(),
+                            userDetails.getLastName(),
+                            userDetails.getRole(),
+                            jwtCookie,
+                            refreshJwtCookie));
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid Token");
+        }
+
     }
 }

@@ -1,11 +1,12 @@
 package com.musicoo.apis.payload.request;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 
-@Getter @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class TokenRefreshReq {
     @NotNull
     private String refreshToken;
