@@ -4,6 +4,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.musicoo.apis.model.MusicooUser;
+import com.musicoo.apis.payload.request.ArtistRegisterReq;
 import com.musicoo.apis.payload.request.RegisterReq;
 import com.musicoo.apis.service.TokenOrOTPService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class TokenOrOTPServiceImpl implements TokenOrOTPService {
     private LoadingCache<String, String> tokenCache;
     private LoadingCache<String, Integer> otpCache;
     private LoadingCache<String, RegisterReq> userCache;
+    private LoadingCache<String, ArtistRegisterReq> artistCache;
 
     public TokenOrOTPServiceImpl() {
         super();
@@ -57,6 +59,11 @@ public class TokenOrOTPServiceImpl implements TokenOrOTPService {
     }
 
     @Override
+    public void cacheArtistData(ArtistRegisterReq registerReq) {
+        artistCache.put(registerReq.getEmail(), registerReq);
+    }
+
+    @Override
     public Object generateTokenOrOTP(int choice, String key) {
         if (choice == 1) {
             String confirmationToken = UUID.randomUUID().toString();
@@ -77,8 +84,10 @@ public class TokenOrOTPServiceImpl implements TokenOrOTPService {
                 return tokenCache.get(key);
             } else if (choice == 2) {
                 return otpCache.get(key);
-            } else {
+            } else if (choice == 3){
                 return userCache.get(key);
+            } else {
+                return artistCache.get(key);
             }
         } catch (ExecutionException | CacheLoader.InvalidCacheLoadException e) {
             return null;
@@ -91,8 +100,10 @@ public class TokenOrOTPServiceImpl implements TokenOrOTPService {
             tokenCache.invalidate(key);
         } else if (choice == 2){
             otpCache.invalidate(key);
-        } else {
+        } else if (choice == 3){
             userCache.invalidate(key);
+        } else if (choice == 4){
+            artistCache.invalidate(key);
         }
     }
 }

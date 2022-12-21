@@ -4,6 +4,6 @@ import com.musicoo.apis.model.MusicooArtist;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ArtistRepo extends JpaRepository<MusicooArtist, Long> {
-    MusicooArtist findByEmail(String email);
-    Boolean existsByEmail(String email);
+    MusicooArtist findByEmailIgnoreCase(String email);
+    Boolean existsByEmailIgnoreCase(String email);
 }

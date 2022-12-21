@@ -1,6 +1,7 @@
 package com.musicoo.apis.service.jwt;
 
 import com.musicoo.apis.model.MusicooUser;
+import com.musicoo.apis.service.Implementation.ArtistDetailsImpl;
 import com.musicoo.apis.service.Implementation.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import lombok.NoArgsConstructor;
@@ -51,6 +52,11 @@ public class JwtUtil {
         return doGenerateToken(claims, userDetails.getEmail());
     }
 
+    public String generateArtistToken(ArtistDetailsImpl artistDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        return doGenerateToken(claims, artistDetails.getEmail());
+    }
+
     public String generateTokenFromEmail(String email) {
         return Jwts.builder().setSubject(email).setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + REFRESH_JWT_TOKEN_VALIDITY * 1000))
@@ -71,6 +77,11 @@ public class JwtUtil {
         final String email = getEmailFromToken(token);
         System.out.println("Checking if the token is valid or not:  " + (email.equals(userDetails.getEmail()) && !isTokenExpired(token)));
         return (email.equals(userDetails.getEmail()) && !isTokenExpired(token));
+    }
+
+    public Boolean validateArtistToken(String token, ArtistDetailsImpl artistDetails) {
+        final String email = getEmailFromToken(token);
+        return (email.equals(artistDetails.getEmail()) && !isTokenExpired(token));
     }
 
 

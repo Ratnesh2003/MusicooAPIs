@@ -3,28 +3,19 @@ package com.musicoo.apis.service.Implementation;
 import com.google.common.cache.CacheLoader;
 import com.musicoo.apis.helper.TokenDecoder;
 import com.musicoo.apis.model.MusicooUser;
-import com.musicoo.apis.model.Provider;
 import com.musicoo.apis.payload.request.*;
 import com.musicoo.apis.payload.response.TokenRefreshResponse;
 import com.musicoo.apis.payload.response.UserInfoResponse;
-import com.musicoo.apis.repository.ArtistRepo;
 import com.musicoo.apis.repository.UserRepo;
 import com.musicoo.apis.service.EmailService;
 import com.musicoo.apis.service.UserAuthService;
 import com.musicoo.apis.service.jwt.JwtUtil;
-import com.nimbusds.jose.shaded.gson.Gson;
-import com.nimbusds.jose.shaded.gson.JsonObject;
-import com.nimbusds.jose.shaded.gson.JsonParser;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import net.minidev.json.parser.JSONParser;
-import org.apache.commons.codec.binary.Base64;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -46,7 +37,6 @@ public class UserAuthServiceImpl implements UserAuthService {
     private final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userDetailsService;
     private final TokenDecoder tokenDecoder;
-//    private final AuthenticationManager authenticationManager;
 
 
 

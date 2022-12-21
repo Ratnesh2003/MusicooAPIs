@@ -1,9 +1,6 @@
 package com.musicoo.apis.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,4 +18,15 @@ public class MusicooArtist {
     private String email;
     private String password;
     private Role role = Role.ROLE_ARTIST;
+    private Boolean isEnabled = true;
+    @Enumerated(EnumType.STRING)
+    private Provider provider;
+
+    public MusicooArtist(String firstName, String lastName, String email, String password, Provider provider) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.provider = provider;
+    }
 }

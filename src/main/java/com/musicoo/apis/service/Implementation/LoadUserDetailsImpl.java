@@ -21,6 +21,6 @@ public class LoadUserDetailsImpl implements LoadUserDetails {
 
     @Override
     public MusicooArtist loadArtistByEmail(String email) {
-        return artistRepo.findByEmail(email);
+        return artistRepo.findByEmailIgnoreCase(email);
     }
 }
