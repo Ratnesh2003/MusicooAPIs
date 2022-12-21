@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f5836bad-17fc-47f6-94c8-dfa4b09ea252" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MusicooAPIs.iml" beforeDir="false" afterPath="$PROJECT_DIR$/MusicooAPIs.iml" afterDir="false" />
-    </list>
+    <list default="true" id="f5836bad-17fc-47f6-94c8-dfa4b09ea252" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -101,6 +97,7 @@
       <workItem from="1671610985703" duration="4085000" />
       <workItem from="1671619654282" duration="3353000" />
       <workItem from="1671644905480" duration="4669000" />
+      <workItem from="1671656592820" duration="136000" />
     </task>
     <servers />
   </component>
