@@ -127,7 +127,7 @@ public class UserAuthServiceImpl implements UserAuthService {
             );
             return ResponseEntity.ok().body("OTP sent on the given mail");
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found with the given email");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Artist not found with the given email");
         }
     }
 

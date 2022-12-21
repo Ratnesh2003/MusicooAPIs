@@ -35,26 +35,6 @@ public class SecurityConfig {
                 .requestMatchers("/api/oauth/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-//                .oauth2Login().loginPage("/api/oauth/login").userInfoEndpoint().userService(oAuth2UserService)
-//                        .and().successHandler(new AuthenticationSuccessHandler() {
-//                    @Override
-//                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-//
-//                        OAuth2UserImpl oAuth2User = (OAuth2UserImpl) authentication.getPrincipal();
-//                        String nameParts[] = oAuth2User.getName().split(" ");
-//                        RegisterReq registerReq = new RegisterReq(
-//                                nameParts[0],
-//                                nameParts[1],
-//                                oAuth2User.getEmail(),
-//                                null,
-//                                Provider.GOOGLE
-//                        );
-//                        System.out.println("Registration Done");
-////                            userAuthService.registerUser(registerReq, request);
-//                        response.sendRedirect("/api/test");
-//                    }
-//                });
-//        http
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

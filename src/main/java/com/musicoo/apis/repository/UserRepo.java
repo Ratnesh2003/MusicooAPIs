@@ -6,6 +6,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface UserRepo extends JpaRepository<MusicooUser, Long> {
     MusicooUser findByEmailIgnoreCase(String email);
     Boolean existsByEmailIgnoreCase(String email);
-//    MusicooUser findById(long id);
-    MusicooUser findUserById(long id);
 }

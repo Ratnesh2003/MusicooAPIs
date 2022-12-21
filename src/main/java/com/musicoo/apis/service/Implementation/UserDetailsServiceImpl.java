@@ -19,7 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (musicooUser != null) {
             return UserDetailsImpl.build(musicooUser);
         } else {
-            throw new UsernameNotFoundException("User with this email not found");
+            throw new UsernameNotFoundException("Artist with this email not found");
         }
     }
 }
