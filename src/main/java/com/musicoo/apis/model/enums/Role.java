@@ -1,4 +1,4 @@
-package com.musicoo.apis.model;
+package com.musicoo.apis.model.enums;
 
 public enum Role {
     ROLE_USER,

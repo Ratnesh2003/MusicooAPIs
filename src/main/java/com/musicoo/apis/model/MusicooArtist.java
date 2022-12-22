@@ -1,5 +1,7 @@
 package com.musicoo.apis.model;
 
+import com.musicoo.apis.model.enums.Provider;
+import com.musicoo.apis.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

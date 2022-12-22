@@ -1,6 +1,6 @@
 package com.musicoo.apis.helper;
 
-import com.musicoo.apis.model.Provider;
+import com.musicoo.apis.model.enums.Provider;
 import com.musicoo.apis.payload.request.RegisterReq;
 import com.nimbusds.jose.shaded.gson.JsonObject;
 import com.nimbusds.jose.shaded.gson.JsonParser;

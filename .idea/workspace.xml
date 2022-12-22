@@ -4,7 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f5836bad-17fc-47f6-94c8-dfa4b09ea252" name="Changes" comment="" />
+    <list default="true" id="f5836bad-17fc-47f6-94c8-dfa4b09ea252" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/helper/TokenDecoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/helper/TokenDecoder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/model/MusicooArtist.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/model/MusicooArtist.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/model/MusicooUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/model/MusicooUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/model/Provider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/model/enums/Provider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/model/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/model/enums/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/payload/request/RegisterReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/payload/request/RegisterReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/payload/response/UserInfoResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/payload/response/UserInfoResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/ArtistAuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/ArtistAuthServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/ArtistDetailsImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/ArtistDetailsImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/UserDetailsImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/UserDetailsImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -98,6 +111,10 @@
       <workItem from="1671619654282" duration="3353000" />
       <workItem from="1671644905480" duration="4669000" />
       <workItem from="1671656592820" duration="136000" />
+      <workItem from="1671656878468" duration="104000" />
+      <workItem from="1671683022414" duration="593000" />
+      <workItem from="1671706901046" duration="5232000" />
+      <workItem from="1671738123184" duration="482000" />
     </task>
     <servers />
   </component>

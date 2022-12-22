@@ -1,7 +1,7 @@
 package com.musicoo.apis.service.Implementation;
 
 import com.musicoo.apis.model.MusicooUser;
-import com.musicoo.apis.model.Role;
+import com.musicoo.apis.model.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;

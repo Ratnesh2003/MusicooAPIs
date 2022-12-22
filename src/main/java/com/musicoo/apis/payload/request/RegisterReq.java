@@ -1,6 +1,6 @@
 package com.musicoo.apis.payload.request;
 
-import com.musicoo.apis.model.Provider;
+import com.musicoo.apis.model.enums.Provider;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
