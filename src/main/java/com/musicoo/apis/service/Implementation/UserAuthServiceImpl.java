@@ -100,9 +100,9 @@ public class UserAuthServiceImpl implements UserAuthService {
                 return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie)
                         .body(new UserInfoResponse(
                                 userDetails.getId(),
-                                userDetails.getEmail(),
                                 userDetails.getFirstName(),
                                 userDetails.getLastName(),
+                                userDetails.getEmail(),
                                 userDetails.getRole(),
                                 jwtCookie,
                                 refreshJwtCookie));
