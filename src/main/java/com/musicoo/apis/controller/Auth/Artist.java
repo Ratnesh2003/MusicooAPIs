@@ -23,11 +23,11 @@ public class Artist {
 
     @PostMapping("/auth/signup/artist")
     public ResponseEntity<?> registerArtist(@RequestBody ArtistRegisterReq artistRegisterReq, HttpServletRequest httpRequest) throws Exception {
-        try {
+//        try {
             return artistService.registerArtist(artistRegisterReq, httpRequest);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("This email is already being used");
-        }
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.CONFLICT).body("This email is already being used");
+//        }
     }
 
     @RequestMapping(value = "/auth/confirm/artist", method = {RequestMethod.GET, RequestMethod.POST})

@@ -51,6 +51,14 @@ public class TokenOrOTPServiceImpl implements TokenOrOTPService {
                         return null;
                     }
                 });
+        artistCache = CacheBuilder.newBuilder().
+                expireAfterWrite(EXPIRE_MINUTES, TimeUnit.MINUTES)
+                .build(new CacheLoader<String, ArtistRegisterReq>() {
+                    @Override
+                    public ArtistRegisterReq load(String s) throws Exception {
+                        return null;
+                    }
+                });
     }
 
     @Override

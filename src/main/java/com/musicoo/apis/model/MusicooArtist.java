@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "musicoo_artist")
 @NoArgsConstructor
@@ -24,12 +26,15 @@ public class MusicooArtist {
     private Boolean isEnabled = true;
     @Enumerated(EnumType.STRING)
     private Provider provider;
+    @OneToMany(mappedBy = "musicooArtist", cascade = CascadeType.ALL)
+    private List<Album> albums;
 
-    public MusicooArtist(String firstName, String lastName, String email, String password, Provider provider) {
+    public MusicooArtist(String firstName, String lastName, String email, String password, Provider provider, List<Album> albums) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.provider = provider;
+        this.albums = albums;
     }
 }

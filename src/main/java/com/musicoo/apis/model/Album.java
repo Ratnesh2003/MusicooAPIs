@@ -1,11 +1,9 @@
 package com.musicoo.apis.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Album {
@@ -14,6 +12,11 @@ public class Album {
     private Long aId;
     private String aName;
     private Date aRelease;
+    @OneToMany(mappedBy = "album", cascade = CascadeType.ALL)
+    private List<Song> songs;
+    @ManyToOne
+    @JoinColumn(name = "artist_id")
+    private MusicooArtist musicooArtist;
 
 
 }

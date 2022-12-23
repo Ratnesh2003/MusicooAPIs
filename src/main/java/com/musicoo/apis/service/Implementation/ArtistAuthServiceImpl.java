@@ -41,9 +41,12 @@ public class ArtistAuthServiceImpl implements ArtistAuthService {
     @Override
     public ResponseEntity<?> registerArtist(ArtistRegisterReq registerReq, HttpServletRequest httpRequest) throws Exception {
         String baseURL =  ServletUriComponentsBuilder.fromRequestUri(httpRequest).replacePath(null).build().toUriString();
+        System.out.println("YAha tak chal gya");
         if (artistRepo.existsByEmailIgnoreCase(registerReq.getEmail())) {
+            System.out.println("Email used");
             throw new Exception("Email already in use");
         }
+        System.out.println("Registerd");
         registerReq.setPassword(passwordEncoder.encode(registerReq.getPassword()));
         return sendArtistVerificationLink(registerReq, baseURL);
     }
@@ -59,7 +62,7 @@ public class ArtistAuthServiceImpl implements ArtistAuthService {
                     "Email Verification Musicoo",
                     "Hello " + registerReq.getFirstName() + " " + registerReq.getLastName() + ",<br><br> You registered an account on Musicoo, " +
                             "before being able to use your account you need to verify that this is your email address by clicking " +
-                            "<a href=\""+ baseURL + "/api/auth/confirm?token=" + tokenOrOTPService.getTokenOrOTP(1, registerReq.getEmail()).toString() +
+                            "<a href=\""+ baseURL + "/api/auth/confirm/artist?token=" + tokenOrOTPService.getTokenOrOTP(1, registerReq.getEmail()).toString() +
                             "&email=" + registerReq.getEmail() + "\">here</a>" + ".<br><br>Kind Regards, Musicoo"
             );
             return ResponseEntity.status(HttpStatus.CREATED).body("Please check your email for verification");
@@ -73,14 +76,15 @@ public class ArtistAuthServiceImpl implements ArtistAuthService {
 
     @Override
     public ResponseEntity<?> confirmArtistAccount(String confirmationToken, String email) throws ExecutionException {
-        if (Objects.equals(tokenOrOTPService.getTokenOrOTP(4, email).toString(), confirmationToken)) {
+        if (Objects.equals(tokenOrOTPService.getTokenOrOTP(1, email).toString(), confirmationToken)) {
             ArtistRegisterReq registerReq = cast(tokenOrOTPService.getTokenOrOTP(4, email));
             MusicooArtist musicooArtist = new MusicooArtist(
                     registerReq.getFirstName(),
                     registerReq.getLastName(),
                     registerReq.getEmail(),
                     registerReq.getPassword(),
-                    Provider.LOCAL
+                    Provider.LOCAL,
+                    null
             );
             artistRepo.save(musicooArtist);
             tokenOrOTPService.clearTokenOrOTP(1, email);
