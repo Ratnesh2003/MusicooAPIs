@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+@Table(name = "musicoo_user")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data

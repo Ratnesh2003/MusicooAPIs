@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f5836bad-17fc-47f6-94c8-dfa4b09ea252" name="Changes" comment="" />
+    <list default="true" id="f5836bad-17fc-47f6-94c8-dfa4b09ea252" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/UserAuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/UserAuthServiceImpl.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -98,10 +101,14 @@
       <workItem from="1671619654282" duration="3353000" />
       <workItem from="1671644905480" duration="4669000" />
       <workItem from="1671656592820" duration="136000" />
+<<<<<<< HEAD
       <workItem from="1671656878468" duration="104000" />
       <workItem from="1671683022414" duration="593000" />
       <workItem from="1671706901046" duration="5232000" />
       <workItem from="1671738123184" duration="482000" />
+=======
+      <workItem from="1671776986421" duration="802000" />
+>>>>>>> 75280151e4bd8f155cd9e937692ca36860cf6bbf
     </task>
     <servers />
   </component>
