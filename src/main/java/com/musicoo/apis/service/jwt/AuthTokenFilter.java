@@ -1,9 +1,8 @@
 package com.musicoo.apis.service.jwt;
 
 import com.musicoo.apis.model.MusicooUser;
-import com.musicoo.apis.service.Implementation.LoadUserDetailsImpl;
-import com.musicoo.apis.service.Implementation.UserDetailsImpl;
-import com.musicoo.apis.service.Implementation.UserDetailsServiceImpl;
+import com.musicoo.apis.model.enums.Role;
+import com.musicoo.apis.service.Implementation.*;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,8 +20,8 @@ import java.io.IOException;
 @Component
 public class AuthTokenFilter extends OncePerRequestFilter {
 
-    private final LoadUserDetailsImpl loadUserDetails;
     private final UserDetailsServiceImpl userDetailsService;
+    private final ArtistDetailsServiceImpl artistDetailsService;
     private final JwtUtil jwtUtil;
 
     @Override
@@ -40,13 +39,32 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         }
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetailsImpl userDetails = userDetailsService.loadUserByUsername(email);
-
-            if (jwtUtil.validateToken(jwtToken, userDetails)) {
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+            try{
+                UserDetailsImpl userDetails = userDetailsService.loadUserByUsername(email);
+                if (userDetails.getRole() != Role.ROLE_ARTIST) {
+                    throw new Exception();
+                }
+                if (jwtUtil.validateToken(jwtToken, userDetails)) {
+                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                }
+            } catch (Exception e) {
+                ArtistDetailsImpl artistDetails = artistDetailsService.loadUserByUsername(email);
+                if (jwtUtil.validateArtistToken(jwtToken, artistDetails)) {
+                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(artistDetails, null, artistDetails.getAuthorities());
+                    usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                }
             }
+
+//            UserDetailsImpl userDetails = userDetailsService.loadUserByUsername(email);
+//
+//            if (jwtUtil.validateToken(jwtToken, userDetails)) {
+//                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+//                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+//                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+//            }
         }
     filterChain.doFilter(request, response);
     }

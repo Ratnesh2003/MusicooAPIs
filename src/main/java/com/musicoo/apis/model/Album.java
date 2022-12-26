@@ -1,11 +1,16 @@
 package com.musicoo.apis.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 import java.util.List;
 
 @Entity
+@NoArgsConstructor
+@Getter @Setter
 public class Album {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,6 +22,13 @@ public class Album {
     @ManyToOne
     @JoinColumn(name = "artist_id")
     private MusicooArtist musicooArtist;
+
+    public Album(String aName, Date aRelease, List<Song> songs, MusicooArtist artist) {
+        this.aName = aName;
+        this.aRelease = aRelease;
+        this.songs = songs;
+        this.musicooArtist = artist;
+    }
 
 
 }
