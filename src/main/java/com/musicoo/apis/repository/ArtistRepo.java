@@ -5,5 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ArtistRepo extends JpaRepository<MusicooArtist, Long> {
     MusicooArtist findByEmailIgnoreCase(String email);
+    MusicooArtist findById(long id);
     Boolean existsByEmailIgnoreCase(String email);
 }

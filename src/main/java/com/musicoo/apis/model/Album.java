@@ -1,5 +1,6 @@
 package com.musicoo.apis.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class Album {
     private List<Song> songs;
     @ManyToOne
     @JoinColumn(name = "artist_id")
+    @JsonBackReference
     private MusicooArtist musicooArtist;
 
     public Album(String aName, Date aRelease, List<Song> songs, MusicooArtist artist) {

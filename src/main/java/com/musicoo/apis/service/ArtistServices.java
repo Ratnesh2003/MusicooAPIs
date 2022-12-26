@@ -5,4 +5,5 @@ import org.springframework.http.ResponseEntity;
 
 public interface ArtistServices {
     public ResponseEntity<?> createAlbum(String name, MusicooArtist artist);
+    public ResponseEntity<?> getAlbums(Long aId);
 }
