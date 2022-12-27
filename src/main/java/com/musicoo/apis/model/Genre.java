@@ -1,5 +1,6 @@
 package com.musicoo.apis.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -8,8 +9,9 @@ import java.util.List;
 public class Genre {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long gId;
+    private Long id;
     private String gName;
     @OneToMany(mappedBy = "genre", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Song> songs;
 }

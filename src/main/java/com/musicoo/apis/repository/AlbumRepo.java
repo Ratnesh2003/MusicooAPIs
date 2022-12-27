@@ -9,4 +9,6 @@ import java.util.Optional;
 
 public interface AlbumRepo extends JpaRepository<Album, Long> {
     List<Album> findAlbumsByMusicooArtist(Optional<MusicooArtist> artist);
+
+    Album findById(long id);
 }

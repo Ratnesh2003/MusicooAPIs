@@ -6,13 +6,18 @@
   <component name="ChangeListManager">
     <list default="true" id="f5836bad-17fc-47f6-94c8-dfa4b09ea252" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MusicooAPIs.iml" beforeDir="false" afterPath="$PROJECT_DIR$/MusicooAPIs.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/controller/Artist/Home.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/controller/Artist/Home.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/model/Album.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/model/Album.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/model/Genre.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/model/Genre.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/model/MusicooArtist.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/model/MusicooArtist.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/model/Song.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/model/Song.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/repository/AlbumRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/repository/AlbumRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/repository/ArtistRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/repository/ArtistRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/repository/GenreRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/repository/GenreRepo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/ArtistServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/ArtistServices.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/ArtistServicesImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/ArtistServicesImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,7 +118,7 @@
       <workItem from="1671738123184" duration="482000" />
       <workItem from="1671776986421" duration="802000" />
       <workItem from="1671886072475" duration="5063000" />
-      <workItem from="1672047287256" duration="8741000" />
+      <workItem from="1672047287256" duration="30804000" />
     </task>
     <servers />
   </component>

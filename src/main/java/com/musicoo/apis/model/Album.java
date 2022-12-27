@@ -1,6 +1,7 @@
 package com.musicoo.apis.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,10 +16,11 @@ import java.util.List;
 public class Album {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long aId;
+    private Long id;
     private String aName;
     private Date aRelease;
     @OneToMany(mappedBy = "album", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Song> songs;
     @ManyToOne
     @JoinColumn(name = "artist_id")

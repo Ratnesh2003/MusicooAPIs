@@ -30,6 +30,9 @@ public class MusicooArtist {
     @OneToMany(mappedBy = "musicooArtist", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Album> albums;
+    @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Song> songs;
 
     public MusicooArtist(String firstName, String lastName, String email, String password, Provider provider, List<Album> albums) {
         this.firstName = firstName;
