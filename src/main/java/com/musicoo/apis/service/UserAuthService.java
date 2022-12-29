@@ -20,4 +20,5 @@ public interface UserAuthService {
     ResponseEntity<?> generateAccessToken(String refreshToken);
     ResponseEntity<?> googleRegister(String googleAuthToken, HttpServletRequest httpRequest) throws MessagingException, ExecutionException;
     ResponseEntity<?> googleLogin(String refreshToken);
+    ResponseEntity<?> addChoices(String email, ChoicesReq choicesReq);
 }

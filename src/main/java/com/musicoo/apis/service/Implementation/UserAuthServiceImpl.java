@@ -1,11 +1,16 @@
 package com.musicoo.apis.service.Implementation;
 
 import com.google.common.cache.CacheLoader;
+import com.musicoo.apis.controller.Auth.Artist;
 import com.musicoo.apis.helper.TokenDecoder;
+import com.musicoo.apis.model.Genre;
+import com.musicoo.apis.model.MusicooArtist;
 import com.musicoo.apis.model.MusicooUser;
 import com.musicoo.apis.payload.request.*;
 import com.musicoo.apis.payload.response.TokenRefreshResponse;
 import com.musicoo.apis.payload.response.UserInfoResponse;
+import com.musicoo.apis.repository.ArtistRepo;
+import com.musicoo.apis.repository.GenreRepo;
 import com.musicoo.apis.repository.UserRepo;
 import com.musicoo.apis.service.EmailService;
 import com.musicoo.apis.service.UserAuthService;
@@ -21,6 +26,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
@@ -37,6 +44,8 @@ public class UserAuthServiceImpl implements UserAuthService {
     private final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userDetailsService;
     private final TokenDecoder tokenDecoder;
+    private final ArtistRepo artistRepo;
+    private final GenreRepo genreRepo;
 
 
 
@@ -212,5 +221,26 @@ public class UserAuthServiceImpl implements UserAuthService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid Token");
         }
 
+    }
+
+    @Override
+    public ResponseEntity<?> addChoices(String email, ChoicesReq choicesReq) {
+        MusicooUser user = userRepo.findByEmailIgnoreCase(email);
+        List<MusicooArtist> artists = new ArrayList<>();
+        List<Genre> genres = new ArrayList<>();
+        for (int i=0; i< choicesReq.getArtistCount(); i++) {
+            int id = choicesReq.getArtists().get(i);
+            MusicooArtist artist = artistRepo.findById(id);
+            artists.add(artist);
+        }
+        for (int i=0; i<choicesReq.getGenreCount(); i++) {
+            int id = choicesReq.getGenres().get(i);
+            Genre genre = genreRepo.findById(id);
+            genres.add(genre);
+        }
+        user.setLikedArtists(artists);
+        user.setLikedGenres(genres);
+        userRepo.save(user);
+        return ResponseEntity.status(HttpStatus.OK).body("Details updated successfully");
     }
 }

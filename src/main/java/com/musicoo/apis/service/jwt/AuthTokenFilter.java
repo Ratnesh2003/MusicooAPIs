@@ -41,7 +41,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             try{
                 UserDetailsImpl userDetails = userDetailsService.loadUserByUsername(email);
-                if (userDetails.getRole() != Role.ROLE_ARTIST) {
+                if (userDetails.getRole() != Role.ROLE_USER) {
                     throw new Exception();
                 }
                 if (jwtUtil.validateToken(jwtToken, userDetails)) {

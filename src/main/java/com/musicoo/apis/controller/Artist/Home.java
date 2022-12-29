@@ -27,7 +27,6 @@ public class Home {
     private final JwtUtil jwtUtil;
     private final ArtistRepo artistRepo;
     private final ArtistServicesImpl service;
-    private final AmazonClient amazonClient;
 
     @PostMapping("/album/create")
     public ResponseEntity<?> createAlbum(@RequestBody AlbumReq albumReq, HttpServletRequest httpRequest) {

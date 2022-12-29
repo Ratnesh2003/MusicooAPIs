@@ -5,6 +5,7 @@ import com.musicoo.apis.payload.request.*;
 import com.musicoo.apis.repository.UserRepo;
 import com.musicoo.apis.service.ArtistAuthService;
 import com.musicoo.apis.service.Implementation.UserAuthServiceImpl;
+import com.musicoo.apis.service.jwt.JwtUtil;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import java.util.concurrent.ExecutionException;
 public class User {
     private final UserAuthServiceImpl service;
     private final UserRepo userRepo;
+    private final JwtUtil jwtUtil;
 
     @PostMapping("/auth/signup")
     public ResponseEntity<?> registerUser(@RequestBody RegisterReq registerReq, HttpServletRequest httpRequest) throws MessagingException, ExecutionException {
@@ -70,6 +72,13 @@ public class User {
     @GetMapping("/auth/check")
     public Boolean checkUserExistence(@RequestParam("email")String email) {
         return userRepo.existsByEmailIgnoreCase(email);
+    }
+
+    @PutMapping("/profile/choices")
+    public ResponseEntity<?> addChoices(@RequestBody ChoicesReq choicesReq, HttpServletRequest httpRequest) {
+        String requestTokenHeader =httpRequest.getHeader("Authorization");
+        String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
+        return service.addChoices(email, choicesReq);
     }
 
     @GetMapping("/test")

@@ -1,9 +1,12 @@
 package com.musicoo.apis.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.musicoo.apis.model.enums.Provider;
 import com.musicoo.apis.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "musicoo_user")
@@ -22,6 +25,13 @@ public class MusicooUser {
     private Boolean isEnabled = true;
     @Enumerated(EnumType.STRING)
     private Provider provider;
+    @ManyToMany
+    @JoinColumn(name = "genre_id")
+    private List<Genre> likedGenres;
+    @ManyToMany
+    @JoinColumn(name = "artist_id")
+    private List<MusicooArtist> likedArtists;
+
 
     public MusicooUser(String firstName, String lastName, String email, String password, Provider provider) {
         this.firstName = firstName;
