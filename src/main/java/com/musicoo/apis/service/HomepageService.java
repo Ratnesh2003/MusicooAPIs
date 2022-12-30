@@ -4,5 +4,5 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 
 public interface HomepageService {
-    public ResponseEntity<?> quickPicks(HttpServletRequest httpRequest);
+    public ResponseEntity<?> quickPicks(String home);
 }

@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -80,12 +77,8 @@ public class AmazonClient {
     public float getDuration(MultipartFile multipartFile) {
         try {
             File file = convertMultipartToFile(multipartFile);
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
-            AudioFormat format = audioInputStream.getFormat();
-            long audioFileLength = file.length();
-            long frameSize = format.getFrameSize();
-            float frameRate = format.getFrameRate();
-            return (audioFileLength / (frameSize * frameRate));
+            AudioFileFormat audioFileFormat = AudioSystem.getAudioFileFormat(file);
+            return (long)audioFileFormat.properties().get("duration");
         } catch (IOException | UnsupportedAudioFileException e) {
             throw new RuntimeException(e);
         }
