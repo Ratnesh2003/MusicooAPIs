@@ -1,6 +1,7 @@
 package com.musicoo.apis.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,17 +31,14 @@ public class Song {
     @ManyToOne
     @JoinColumn(name = "album_id")
     @JsonBackReference
-//    @JoinTable(name = "album", joinColumns = @JoinColumn(name = "album_id", referencedColumnName = "a_id"))
-//    @JoinColumn(name = "album_id", referencedColumnName = "a_id")
     private Album album;
     @ManyToOne
     @JoinColumn(name = "genre_id")
     @JsonBackReference
-//    @JoinTable(name = "genre", joinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "g_id"))
-//    @JoinColumn(name = "song_id", referencedColumnName = "g_id")
     private Genre genre;
 
     @ManyToMany(mappedBy = "songs", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<UserPlaylist> playlists;
     
 

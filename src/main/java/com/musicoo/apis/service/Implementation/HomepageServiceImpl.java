@@ -66,4 +66,30 @@ public class HomepageServiceImpl implements HomepageService {
         return ResponseEntity.status(HttpStatus.OK).body("Song added to liked");
 
     }
+
+    @Override
+    public ResponseEntity<?> getAllPlaylists(String email) {
+        MusicooUser user = userRepo.findByEmailIgnoreCase(email);
+        List<UserPlaylist> userPlaylists = playlistRepo.findByMusicooUser(user);
+        return ResponseEntity.status(HttpStatus.OK).body(userPlaylists);
+    }
+
+    @Override
+    public ResponseEntity<?> getSongsOfPlaylist(long pId, String email) {
+        MusicooUser user = userRepo.findByEmailIgnoreCase(email);
+        UserPlaylist playlist = playlistRepo.findByIdAndMusicooUser(pId, user);
+        List<Song> songs = playlist.getSongs();
+        if (!songs.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.OK).body(songs);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    }
+
+    @Override
+    public ResponseEntity<?> getLikedSongs(String email) {
+        MusicooUser user = userRepo.findByEmailIgnoreCase(email);
+        UserPlaylist playlist = playlistRepo.findByPlaylistNameAndMusicooUser("Liked", user);
+        List<Song> songs = playlist.getSongs();
+        return ResponseEntity.status(HttpStatus.OK).body(songs);
+    }
 }
