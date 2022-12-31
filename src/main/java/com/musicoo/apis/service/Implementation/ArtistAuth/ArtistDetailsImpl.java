@@ -1,6 +1,6 @@
-package com.musicoo.apis.service.Implementation;
+package com.musicoo.apis.service.Implementation.ArtistAuth;
 
-import com.musicoo.apis.model.MusicooUser;
+import com.musicoo.apis.model.MusicooArtist;
 import com.musicoo.apis.model.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,8 +11,7 @@ import java.util.Collection;
 
 @AllArgsConstructor
 @Getter
-public class UserDetailsImpl implements UserDetails {
-
+public class ArtistDetailsImpl implements UserDetails {
     private Long id;
     private String firstName;
     private String lastName;
@@ -20,6 +19,7 @@ public class UserDetailsImpl implements UserDetails {
     private String password;
     private Role role;
     private Boolean isEnabled;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -56,15 +56,15 @@ public class UserDetailsImpl implements UserDetails {
         return isEnabled;
     }
 
-    public static UserDetailsImpl build(MusicooUser musicooUser) {
-        return new UserDetailsImpl(
-                musicooUser.getId(),
-                musicooUser.getFirstName(),
-                musicooUser.getLastName(),
-                musicooUser.getEmail(),
-                musicooUser.getPassword(),
-                musicooUser.getRole(),
-                musicooUser.getIsEnabled()
+    public static ArtistDetailsImpl build(MusicooArtist musicooArtist) {
+        return new ArtistDetailsImpl(
+                musicooArtist.getId(),
+                musicooArtist.getFirstName(),
+                musicooArtist.getLastName(),
+                musicooArtist.getEmail(),
+                musicooArtist.getPassword(),
+                musicooArtist.getRole(),
+                musicooArtist.getIsEnabled()
         );
     }
 }

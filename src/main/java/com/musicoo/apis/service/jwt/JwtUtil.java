@@ -1,8 +1,7 @@
 package com.musicoo.apis.service.jwt;
 
-import com.musicoo.apis.model.MusicooUser;
-import com.musicoo.apis.service.Implementation.ArtistDetailsImpl;
-import com.musicoo.apis.service.Implementation.UserDetailsImpl;
+import com.musicoo.apis.service.Implementation.ArtistAuth.ArtistDetailsImpl;
+import com.musicoo.apis.service.Implementation.UserAuth.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;

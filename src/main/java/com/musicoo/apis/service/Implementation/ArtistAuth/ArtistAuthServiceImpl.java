@@ -1,4 +1,4 @@
-package com.musicoo.apis.service.Implementation;
+package com.musicoo.apis.service.Implementation.ArtistAuth;
 
 import com.google.common.cache.CacheLoader;
 import com.musicoo.apis.helper.TokenDecoder;
@@ -10,6 +10,7 @@ import com.musicoo.apis.payload.response.UserInfoResponse;
 import com.musicoo.apis.repository.ArtistRepo;
 import com.musicoo.apis.service.ArtistAuthService;
 import com.musicoo.apis.service.EmailService;
+import com.musicoo.apis.service.Implementation.TokenOrOTPServiceImpl;
 import com.musicoo.apis.service.jwt.JwtUtil;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -41,12 +42,9 @@ public class ArtistAuthServiceImpl implements ArtistAuthService {
     @Override
     public ResponseEntity<?> registerArtist(ArtistRegisterReq registerReq, HttpServletRequest httpRequest) throws Exception {
         String baseURL =  ServletUriComponentsBuilder.fromRequestUri(httpRequest).replacePath(null).build().toUriString();
-        System.out.println("YAha tak chal gya");
         if (artistRepo.existsByEmailIgnoreCase(registerReq.getEmail())) {
-            System.out.println("Email used");
             throw new Exception("Email already in use");
         }
-        System.out.println("Registerd");
         registerReq.setPassword(passwordEncoder.encode(registerReq.getPassword()));
         return sendArtistVerificationLink(registerReq, baseURL);
     }
@@ -135,21 +133,6 @@ public class ArtistAuthServiceImpl implements ArtistAuthService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Artist not found with the given email");
         }
     }
-//
-//    @Override
-//    public ResponseEntity<?> confirmArtistOTP(ConfirmOTPReq confirmOTPReq) throws ExecutionException {
-//        try {
-//            if (Objects.equals(tokenOrOTPService.getTokenOrOTP(2, confirmOTPReq.getEmail()), confirmOTPReq.getOtp())) {
-//                return ResponseEntity.status(HttpStatus.OK).body("OTP Verified");
-//            } else if(tokenOrOTPService.getTokenOrOTP(2, confirmOTPReq.getEmail()) == null){
-//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Token Expired");
-//            } else {
-//                return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Incorrect OTP");
-//            }
-//        } catch (CacheLoader.InvalidCacheLoadException e) {
-//            return null;
-//        }
-//    } //call this method from userauthservice
 
     @Override
     public ResponseEntity<?> changeArtistPassword(ConfirmOTPReq confirmOTPReq) {
@@ -200,8 +183,19 @@ public class ArtistAuthServiceImpl implements ArtistAuthService {
 
     @Override
     public ResponseEntity<?> googleLogin(String refreshToken) {
+        RegisterReq registerReq = tokenDecoder.getRegisterRequestFromToken(refreshToken);
+        if (!artistRepo.existsByEmailIgnoreCase(registerReq.getEmail())) {
+            MusicooArtist musicooArtist = new MusicooArtist(
+                    registerReq.getFirstName(),
+                    registerReq.getLastName(),
+                    registerReq.getEmail(),
+                    registerReq.getPassword(),
+                    Provider.LOCAL,
+                    null
+            );
+            artistRepo.save(musicooArtist);
+        }
         try {
-            RegisterReq registerReq = tokenDecoder.getRegisterRequestFromToken(refreshToken);
             ArtistDetailsImpl artistDetails = artistDetailsService.loadUserByUsername(registerReq.getEmail());
             String jwtCookie = jwtUtil.generateArtistToken(artistDetails);
             String refreshJwtCookie = jwtUtil.generateTokenFromEmail(artistDetails.getEmail());

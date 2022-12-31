@@ -1,9 +1,8 @@
-package com.musicoo.apis.service.Implementation;
+package com.musicoo.apis.service.Implementation.UserAuth;
 
 import com.musicoo.apis.model.MusicooUser;
 import com.musicoo.apis.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;

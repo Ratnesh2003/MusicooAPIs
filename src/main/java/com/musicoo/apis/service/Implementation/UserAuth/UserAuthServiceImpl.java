@@ -1,7 +1,6 @@
-package com.musicoo.apis.service.Implementation;
+package com.musicoo.apis.service.Implementation.UserAuth;
 
 import com.google.common.cache.CacheLoader;
-import com.musicoo.apis.controller.Auth.Artist;
 import com.musicoo.apis.helper.TokenDecoder;
 import com.musicoo.apis.model.Genre;
 import com.musicoo.apis.model.MusicooArtist;
@@ -13,6 +12,7 @@ import com.musicoo.apis.repository.ArtistRepo;
 import com.musicoo.apis.repository.GenreRepo;
 import com.musicoo.apis.repository.UserRepo;
 import com.musicoo.apis.service.EmailService;
+import com.musicoo.apis.service.Implementation.TokenOrOTPServiceImpl;
 import com.musicoo.apis.service.UserAuthService;
 import com.musicoo.apis.service.jwt.JwtUtil;
 import jakarta.mail.MessagingException;
@@ -203,17 +203,27 @@ public class UserAuthServiceImpl implements UserAuthService {
 
     @Override
     public ResponseEntity<?> googleLogin(String googleAuthToken) throws UsernameNotFoundException {
+        RegisterReq registerReq = tokenDecoder.getRegisterRequestFromToken(googleAuthToken);
+        if (!userRepo.existsByEmailIgnoreCase(registerReq.getEmail())) {
+            MusicooUser musicooUser = new MusicooUser(
+                    registerReq.getFirstName(),
+                    registerReq.getLastName(),
+                    registerReq.getEmail(),
+                    registerReq.getPassword(),
+                    registerReq.getProvider()
+            );
+            userRepo.save(musicooUser);
+        }
         try {
-            RegisterReq registerReq = tokenDecoder.getRegisterRequestFromToken(googleAuthToken);
             UserDetailsImpl userDetails = userDetailsService.loadUserByUsername(registerReq.getEmail());
             String jwtCookie = jwtUtil.generateToken(userDetails);
             String refreshJwtCookie = jwtUtil.generateTokenFromEmail(userDetails.getEmail());
             return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie)
                     .body(new UserInfoResponse(
                             userDetails.getId(),
-                            userDetails.getEmail(),
                             userDetails.getFirstName(),
                             userDetails.getLastName(),
+                            userDetails.getEmail(),
                             userDetails.getRole(),
                             jwtCookie,
                             refreshJwtCookie));

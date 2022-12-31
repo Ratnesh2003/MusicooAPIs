@@ -1,6 +1,7 @@
 package com.musicoo.apis.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.musicoo.apis.model.enums.Provider;
 import com.musicoo.apis.model.enums.Role;
 import jakarta.persistence.*;
@@ -31,6 +32,10 @@ public class MusicooUser {
     @ManyToMany
     @JoinColumn(name = "artist_id")
     private List<MusicooArtist> likedArtists;
+
+    @OneToMany(mappedBy = "musicooUser", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<UserPlaylist> userPlaylists;
 
 
     public MusicooUser(String firstName, String lastName, String email, String password, Provider provider) {

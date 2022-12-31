@@ -3,11 +3,10 @@ package com.musicoo.apis.controller.Auth;
 import com.musicoo.apis.payload.request.*;
 import com.musicoo.apis.repository.ArtistRepo;
 import com.musicoo.apis.service.ArtistAuthService;
-import com.musicoo.apis.service.Implementation.UserAuthServiceImpl;
+import com.musicoo.apis.service.Implementation.UserAuth.UserAuthServiceImpl;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

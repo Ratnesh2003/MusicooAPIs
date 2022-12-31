@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -14,7 +15,7 @@ import java.util.Date;
 public class Song {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long sId;
+    private Long id;
     private String sName;
     private Date sRelease;
     private int likes;
@@ -38,6 +39,9 @@ public class Song {
 //    @JoinTable(name = "genre", joinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "g_id"))
 //    @JoinColumn(name = "song_id", referencedColumnName = "g_id")
     private Genre genre;
+
+    @ManyToMany(mappedBy = "songs", cascade = CascadeType.ALL)
+    private List<UserPlaylist> playlists;
     
 
 

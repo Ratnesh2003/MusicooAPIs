@@ -1,5 +1,4 @@
 package com.musicoo.apis.payload.request;
 
-
-public record AlbumReq(String name) {
+public record LikedReq(long songId) {
 }

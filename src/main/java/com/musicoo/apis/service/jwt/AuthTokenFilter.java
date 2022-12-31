@@ -1,8 +1,10 @@
 package com.musicoo.apis.service.jwt;
 
-import com.musicoo.apis.model.MusicooUser;
 import com.musicoo.apis.model.enums.Role;
-import com.musicoo.apis.service.Implementation.*;
+import com.musicoo.apis.service.Implementation.ArtistAuth.ArtistDetailsImpl;
+import com.musicoo.apis.service.Implementation.ArtistAuth.ArtistDetailsServiceImpl;
+import com.musicoo.apis.service.Implementation.UserAuth.UserDetailsImpl;
+import com.musicoo.apis.service.Implementation.UserAuth.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
