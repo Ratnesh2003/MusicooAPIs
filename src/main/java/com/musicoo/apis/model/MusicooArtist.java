@@ -1,5 +1,6 @@
 package com.musicoo.apis.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.musicoo.apis.model.enums.Provider;
 import com.musicoo.apis.model.enums.Role;
@@ -34,6 +35,7 @@ public class MusicooArtist {
     @JsonManagedReference
     private List<Song> songs;
     @ManyToMany(mappedBy = "likedArtists", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<MusicooUser> musicooUsers;
 
     public MusicooArtist(String firstName, String lastName, String email, String password, Provider provider, List<Album> albums) {

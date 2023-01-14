@@ -1,5 +1,6 @@
 package com.musicoo.apis.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -20,5 +21,6 @@ public class Genre {
     @JsonManagedReference
     private List<Song> songs;
     @ManyToMany(mappedBy = "likedGenres", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<MusicooUser> musicooUsers;
 }

@@ -2,6 +2,7 @@ package com.musicoo.apis.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.musicoo.apis.model.enums.SongLanguage;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class Song {
     private String sName;
     private Date sRelease;
     private int likes;
+    private SongLanguage language;
 //    private String lyrics;
     private float duration;
     private String coverImagePath;
@@ -40,6 +42,10 @@ public class Song {
     @ManyToMany(mappedBy = "songs", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<UserPlaylist> playlists;
+
+    @ManyToMany(mappedBy = "defaultSongs", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<DefaultPlaylist> defaultPlaylists;
     
 
 

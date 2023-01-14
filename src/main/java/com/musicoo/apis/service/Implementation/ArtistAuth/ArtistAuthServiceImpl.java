@@ -79,7 +79,7 @@ public class ArtistAuthServiceImpl implements ArtistAuthService {
             MusicooArtist musicooArtist = new MusicooArtist(
                     registerReq.getFirstName(),
                     registerReq.getLastName(),
-                    registerReq.getEmail(),
+                    registerReq.getEmail().trim(),
                     registerReq.getPassword(),
                     Provider.LOCAL,
                     null

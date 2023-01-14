@@ -1,14 +1,9 @@
 package com.musicoo.apis.service.Implementation;
 
-import com.musicoo.apis.model.Genre;
-import com.musicoo.apis.model.MusicooUser;
-import com.musicoo.apis.model.Song;
-import com.musicoo.apis.model.UserPlaylist;
+import com.musicoo.apis.model.*;
+import com.musicoo.apis.model.enums.SongLanguage;
 import com.musicoo.apis.payload.request.LikedReq;
-import com.musicoo.apis.repository.GenreRepo;
-import com.musicoo.apis.repository.PlaylistRepo;
-import com.musicoo.apis.repository.SongRepo;
-import com.musicoo.apis.repository.UserRepo;
+import com.musicoo.apis.repository.*;
 import com.musicoo.apis.service.HomepageService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -26,6 +22,7 @@ public class HomepageServiceImpl implements HomepageService {
     private final GenreRepo genreRepo;
     private final UserRepo userRepo;
     private final PlaylistRepo playlistRepo;
+    private final ArtistRepo artistRepo;
 
     @Override
     public ResponseEntity<?> quickPicks(String email) {
@@ -92,4 +89,32 @@ public class HomepageServiceImpl implements HomepageService {
         List<Song> songs = playlist.getSongs();
         return ResponseEntity.status(HttpStatus.OK).body(songs);
     }
+
+    @Override
+    public ResponseEntity<?> getTopCharts() {
+        HashMap<String, List<Song>> map = new HashMap<>();
+        try {
+            List<Song> topHindiSongs = songRepo.findTopHundredSongsByLikesAndLanguage(SongLanguage.HINDI);
+            List<Song> topEnglishSongs = songRepo.findTopHundredSongsByLikesAndLanguage(SongLanguage.ENGLISH);
+            List<Song> topPunjabiSongs = songRepo.findTopHundredSongsByLikesAndLanguage(SongLanguage.PUNJABI);
+            List<Song> allTopSongs = songRepo.findTopHundredSongsByLikes();
+            map.put("Top Hindi", topHindiSongs);
+            map.put("Top English", topEnglishSongs);
+            map.put("Top Punjabi", topPunjabiSongs);
+            map.put("Al Time Top", allTopSongs);
+            return ResponseEntity.status(HttpStatus.OK).body(map);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Some error occurred");
+        }
+    }
+
+    public ResponseEntity<?> allArtists() {
+        return ResponseEntity.status(HttpStatus.OK).body(artistRepo.findAllArtists());
+    }
+
+    public ResponseEntity<?> allGenres() {
+        return ResponseEntity.status(HttpStatus.OK).body(genreRepo.findAllGenres());
+    }
+
 }

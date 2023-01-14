@@ -223,7 +223,7 @@ public class UserAuthServiceImpl implements UserAuthService {
                             userDetails.getId(),
                             userDetails.getFirstName(),
                             userDetails.getLastName(),
-                            userDetails.getEmail(),
+                            userDetails.getEmail().trim(),
                             userDetails.getRole(),
                             jwtCookie,
                             refreshJwtCookie));

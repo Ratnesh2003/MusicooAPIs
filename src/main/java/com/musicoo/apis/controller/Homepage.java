@@ -52,4 +52,14 @@ public class Homepage {
         return service.getLikedSongs(email);
     }
 
+    @GetMapping("/artists")
+    public ResponseEntity<?> getAllArtists() {
+        return service.allArtists();
+    }
+
+    @GetMapping("/genres")
+    public ResponseEntity<?> getAllGenres() {
+        return service.allGenres();
+    }
+
 }
