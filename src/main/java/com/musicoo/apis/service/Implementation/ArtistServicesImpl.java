@@ -4,6 +4,7 @@ import com.musicoo.apis.model.Album;
 import com.musicoo.apis.model.Genre;
 import com.musicoo.apis.model.MusicooArtist;
 import com.musicoo.apis.model.Song;
+import com.musicoo.apis.model.enums.SongLanguage;
 import com.musicoo.apis.repository.AlbumRepo;
 import com.musicoo.apis.repository.ArtistRepo;
 import com.musicoo.apis.repository.GenreRepo;
@@ -57,16 +58,30 @@ public class ArtistServicesImpl implements ArtistServices {
         Song newSong = new Song();
 
         try {
-            newSong.setSName(jsonSongDetails.get("name").toString());
+            String language = jsonSongDetails.get("language").toString().trim().toLowerCase();
+
+            switch (language.substring(1, language.length() - 1)) {
+                case "hindi" -> newSong.setLanguage(SongLanguage.HINDI);
+                case "english" -> newSong.setLanguage(SongLanguage.ENGLISH);
+                case "punjabi" -> newSong.setLanguage(SongLanguage.PUNJABI);
+                case "spanish" -> newSong.setLanguage(SongLanguage.SPANISH);
+                case "russian" -> newSong.setLanguage(SongLanguage.RUSSIAN);
+                case "instrumental" -> newSong.setLanguage(SongLanguage.INSTRUMENTAL);
+                case "french" -> newSong.setLanguage(SongLanguage.FRENCH);
+                case "miscellaneous" -> newSong.setLanguage(SongLanguage.MISCELLANEOUS);
+            }
+            String name = jsonSongDetails.get("name").toString();
+
+            newSong.setSName(name.substring(1, name.length()-1));
             newSong.setSRelease(new Date());
             newSong.setLikes(0);
-//            newSong.setLyrics(jsonSongDetails.get("lyrics").toString());
             newSong.setDuration(amazonClient.getDuration(audioFile));
             newSong.setCoverImagePath(amazonClient.uploadFile(coverImage));
             newSong.setAudioPath(amazonClient.uploadFile(audioFile));
             newSong.setArtist(artist);
             newSong.setAlbum(album);
             newSong.setGenre(genre);
+            System.out.println(language + " " + name);
 
             songRepo.save(newSong);
             return ResponseEntity.status(HttpStatus.OK).body("Song uploaded successfully");

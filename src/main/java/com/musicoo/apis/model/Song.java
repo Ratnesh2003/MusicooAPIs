@@ -21,8 +21,8 @@ public class Song {
     private String sName;
     private Date sRelease;
     private int likes;
+    @Enumerated(EnumType.STRING)
     private SongLanguage language;
-//    private String lyrics;
     private float duration;
     private String coverImagePath;
     private String audioPath;

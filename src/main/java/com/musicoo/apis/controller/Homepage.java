@@ -52,6 +52,11 @@ public class Homepage {
         return service.getLikedSongs(email);
     }
 
+    @GetMapping("/home/charts/top")
+    public ResponseEntity<?> getTopCharts() {
+        return service.getTopCharts();
+    }
+
     @GetMapping("/artists")
     public ResponseEntity<?> getAllArtists() {
         return service.allArtists();

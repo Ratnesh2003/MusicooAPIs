@@ -16,10 +16,10 @@ public interface SongRepo extends JpaRepository<Song, Long> {
     Song findById(long id);
 
 //    @Query(value = "SELECT TOP 100 \"id\", \"s_name\", \"s_release\", \"likes\", \"duration\", \"cover_image_path\" ", nativeQuery = true)
-    @Query(value = "SELECT TOP 100 * from \"song\" order by \"likes\" desc", nativeQuery = true)
+    @Query(value = "SELECT * from \"song\" order by \"likes\" desc limit 100", nativeQuery = true)
     List<Song> findTopHundredSongsByLikes();
 
-    @Query(value = "SELECT TOP 100 * from \"song\" where \"language\" like %?1% order by \"likes\" desc", nativeQuery = true)
+    @Query(value = "SELECT * from \"song\" where \"language\" like %?1% order by \"likes\" desc limit 100", nativeQuery = true)
     List<Song> findTopHundredSongsByLikesAndLanguage(SongLanguage lang);
 
 }

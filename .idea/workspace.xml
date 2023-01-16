@@ -7,17 +7,11 @@
     <list default="true" id="f5836bad-17fc-47f6-94c8-dfa4b09ea252" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/controller/Homepage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/controller/Homepage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/model/Genre.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/model/Genre.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/model/MusicooArtist.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/model/MusicooArtist.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/model/Song.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/model/Song.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/repository/ArtistRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/repository/ArtistRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/repository/GenreRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/repository/GenreRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/model/enums/SongLanguage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/model/enums/SongLanguage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/repository/SongRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/repository/SongRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/HomepageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/HomepageService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/ArtistAuth/ArtistAuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/ArtistAuth/ArtistAuthServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/ArtistServicesImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/ArtistServicesImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/HomepageServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/HomepageServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/UserAuth/UserAuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/UserAuth/UserAuthServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application-prod.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-prod.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,7 +132,9 @@
       <workItem from="1673522692987" duration="5425000" />
       <workItem from="1673531989493" duration="1507000" />
       <workItem from="1673602402775" duration="546000" />
-      <workItem from="1673690287156" duration="1766000" />
+      <workItem from="1673690287156" duration="2859000" />
+      <workItem from="1673777339066" duration="414000" />
+      <workItem from="1673864078100" duration="3000000" />
     </task>
     <servers />
   </component>
