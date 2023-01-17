@@ -46,6 +46,10 @@ public class Song {
     @ManyToMany(mappedBy = "defaultSongs", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<DefaultPlaylist> defaultPlaylists;
+
+    @ManyToMany(mappedBy = "historySongs", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<ListeningHistory> listeningHistories;
     
 
 

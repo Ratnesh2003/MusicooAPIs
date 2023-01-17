@@ -1,6 +1,6 @@
 package com.musicoo.apis.controller;
 
-import com.musicoo.apis.payload.request.LikedReq;
+import com.musicoo.apis.payload.request.OnlyIdReq;
 import com.musicoo.apis.service.Implementation.HomepageServiceImpl;
 import com.musicoo.apis.service.jwt.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,10 +25,10 @@ public class Homepage {
     }
 
     @PostMapping("/song/add-to-liked")
-    public ResponseEntity<?> addToLiked(@RequestBody LikedReq likedReq, HttpServletRequest httpRequest) {
+    public ResponseEntity<?> addToLiked(@RequestBody OnlyIdReq onlyIdReq, HttpServletRequest httpRequest) {
         String requestTokenHeader =httpRequest.getHeader("Authorization");
         String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
-        return service.addToLiked(likedReq, email);
+        return service.addToLiked(onlyIdReq, email);
     }
 
     @GetMapping("/playlists")
@@ -66,5 +66,27 @@ public class Homepage {
     public ResponseEntity<?> getAllGenres() {
         return service.allGenres();
     }
+
+    @PostMapping("/history/add")
+    public ResponseEntity<?> addToHistory(@RequestBody OnlyIdReq onlyIdReq, HttpServletRequest httpRequest) {
+        String requestTokenHeader = httpRequest.getHeader("Authorization");
+        String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
+        return service.addToHistory(onlyIdReq.songId(), email);
+    }
+
+    @GetMapping("/history")
+    public ResponseEntity<?> getFullHistory(HttpServletRequest httpRequest) {
+        String requestTokenHeader = httpRequest.getHeader("Authorization");
+        String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
+        return service.getFullHistory(email);
+    }
+
+    @GetMapping("/recent")
+    public ResponseEntity<?> getRecentHistory(HttpServletRequest httpRequest) {
+        String requestTokenHeader = httpRequest.getHeader("Authorization");
+        String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
+        return service.getRecentlyPlayed(email);
+    }
+
 
 }

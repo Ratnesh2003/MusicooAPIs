@@ -6,6 +6,7 @@ import com.musicoo.apis.model.enums.Provider;
 import com.musicoo.apis.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
+import org.checkerframework.checker.units.qual.C;
 
 import java.util.List;
 
@@ -36,6 +37,10 @@ public class MusicooUser {
     @OneToMany(mappedBy = "musicooUser", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<UserPlaylist> userPlaylists;
+
+    @OneToMany(mappedBy = "userHistory", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<ListeningHistory> listeningHistories;
 
 
     public MusicooUser(String firstName, String lastName, String email, String password, Provider provider) {
