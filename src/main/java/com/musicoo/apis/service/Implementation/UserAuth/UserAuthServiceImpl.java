@@ -92,7 +92,7 @@ public class UserAuthServiceImpl implements UserAuthService {
             userRepo.save(musicooUser);
             tokenOrOTPService.clearTokenOrOTP(1, email);
             tokenOrOTPService.clearTokenOrOTP(3, email);
-            response.sendRedirect("http://musicoo.app.link/verify");
+            response.sendRedirect("http://musicoo.app.link/verified");
             return ResponseEntity.status(HttpStatus.OK).body("Account verified");
         } else {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("The link is invalid");

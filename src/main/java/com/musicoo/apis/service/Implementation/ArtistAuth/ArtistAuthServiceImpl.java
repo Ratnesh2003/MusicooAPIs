@@ -89,7 +89,7 @@ public class ArtistAuthServiceImpl implements ArtistAuthService {
             artistRepo.save(musicooArtist);
             tokenOrOTPService.clearTokenOrOTP(1, email);
             tokenOrOTPService.clearTokenOrOTP(4, email);
-            response.sendRedirect("http://musicoo.app.link/verify");
+            response.sendRedirect("http://musicoo.app.link/verified");
             return ResponseEntity.status(HttpStatus.OK).body("Account verified");
         } else {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("The link is invalid");

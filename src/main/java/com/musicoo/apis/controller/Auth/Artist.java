@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 @RestController
 @RequiredArgsConstructor
@@ -31,7 +32,7 @@ public class Artist {
     }
 
     @RequestMapping(value = "/auth/confirm/artist", method = {RequestMethod.GET, RequestMethod.POST})
-    public ResponseEntity<?> confirmArtist(@RequestParam String token, @RequestParam String email, HttpServletResponse response) throws ExecutionException {
+    public ResponseEntity<?> confirmArtist(@RequestParam String token, @RequestParam String email, HttpServletResponse response) throws ExecutionException, IOException {
         return artistService.confirmArtistAccount(token, email, response);
     }
 

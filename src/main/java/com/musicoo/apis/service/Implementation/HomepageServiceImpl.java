@@ -11,9 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -93,23 +91,35 @@ public class HomepageServiceImpl implements HomepageService {
     }
 
 //    public ResponseEntity<?> getTopChartsPreview() {
+//        List<HashMap<String, String>> topCharts = new ArrayList<>();
+//        HashMap<String, String> hindi = new HashMap<>();
+//        hindi.put("name", "Value1");
+//        hindi.put("image", "Value2");
 //
+//        HashMap<String, String> punjabi = new HashMap<>();
+//        punjabi.put("name", "Value3");
+//        punjabi.put("image", "Value4");
+//
+//        HashMap<String, String> english = new HashMap<>();
+//        english.put("name", "Value1");
+//        english.put("image", "Value2");
+//
+//        HashMap<String, String> allTime = new HashMap<>();
+//        allTime.put("name", "Value3");
+//        allTime.put("Key4", "Value4");
 //    }
 
     @Override
-    public ResponseEntity<?> getTopCharts() {
-        HashMap<String, List<Song>> map = new HashMap<>();
-        try {
-            List<Song> topHindiSongs = songRepo.findTopHundredSongsByLikesAndLanguage(SongLanguage.HINDI);
-            List<Song> topEnglishSongs = songRepo.findTopHundredSongsByLikesAndLanguage(SongLanguage.ENGLISH);
-            List<Song> topPunjabiSongs = songRepo.findTopHundredSongsByLikesAndLanguage(SongLanguage.PUNJABI);
+    public ResponseEntity<?> getTopCharts(String nameOfChart) {
+        if (Objects.equals(nameOfChart, "ALLTIME")) {
             List<Song> allTopSongs = songRepo.findTopHundredSongsByLikes();
-            map.put("Top Hindi", topHindiSongs);
-            map.put("Top English", topEnglishSongs);
-            map.put("Top Punjabi", topPunjabiSongs);
-            map.put("Al Time Top", allTopSongs);
-            return ResponseEntity.status(HttpStatus.OK).body(map);
-        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.OK).body(allTopSongs);
+        }
+        try {
+            SongLanguage lang = SongLanguage.valueOf(nameOfChart.toUpperCase());
+            List<Song> topSongsChart = songRepo.findTopHundredSongsByLikesAndLanguage(lang);
+            return ResponseEntity.status(HttpStatus.OK).body(topSongsChart);
+        } catch (NoSuchElementException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Some error occurred");
         }

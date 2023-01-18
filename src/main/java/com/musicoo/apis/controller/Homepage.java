@@ -52,9 +52,9 @@ public class Homepage {
         return service.getLikedSongs(email);
     }
 
-    @GetMapping("/home/charts/top")
-    public ResponseEntity<?> getTopCharts() {
-        return service.getTopCharts();
+    @GetMapping("/home/charts/top/{lang}")
+    public ResponseEntity<?> getTopCharts(@PathVariable String lang) {
+        return service.getTopCharts(lang);
     }
 
     @GetMapping("/artists")

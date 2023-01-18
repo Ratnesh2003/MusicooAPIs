@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -28,7 +29,7 @@ public class User {
     }
 
     @RequestMapping(value = "/auth/confirm", method = {RequestMethod.GET, RequestMethod.POST})
-    public ResponseEntity<?> confirmUserAccount(@RequestParam String token, @RequestParam String email, HttpServletResponse response) throws ExecutionException {
+    public ResponseEntity<?> confirmUserAccount(@RequestParam String token, @RequestParam String email, HttpServletResponse response) throws ExecutionException, IOException {
         return service.confirmUserAccount(token, email, response);
     }
 
