@@ -50,9 +50,18 @@ public class Song {
     @ManyToMany(mappedBy = "historySongs", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<ListeningHistory> listeningHistories;
-    
 
 
-
-
+    public Song(String sName, Date sRelease, int likes, SongLanguage language, float duration, String coverImagePath, String audioPath, MusicooArtist artist, Album album, Genre genre) {
+        this.sName = sName;
+        this.sRelease = sRelease;
+        this.likes = likes;
+        this.language = language;
+        this.duration = duration;
+        this.coverImagePath = coverImagePath;
+        this.audioPath = audioPath;
+        this.artist = artist;
+        this.album = album;
+        this.genre = genre;
+    }
 }

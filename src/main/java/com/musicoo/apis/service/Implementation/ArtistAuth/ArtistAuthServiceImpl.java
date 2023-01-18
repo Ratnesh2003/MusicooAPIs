@@ -8,10 +8,14 @@ import com.musicoo.apis.payload.request.*;
 import com.musicoo.apis.payload.response.TokenRefreshResponse;
 import com.musicoo.apis.payload.response.UserInfoResponse;
 import com.musicoo.apis.repository.ArtistRepo;
+import com.musicoo.apis.service.AmazonClient;
 import com.musicoo.apis.service.ArtistAuthService;
 import com.musicoo.apis.service.EmailService;
 import com.musicoo.apis.service.Implementation.TokenOrOTPServiceImpl;
 import com.musicoo.apis.service.jwt.JwtUtil;
+import com.nimbusds.jose.shaded.gson.Gson;
+import com.nimbusds.jose.shaded.gson.JsonObject;
+import com.nimbusds.jose.shaded.gson.JsonParser;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,6 +26,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
@@ -40,15 +45,28 @@ public class ArtistAuthServiceImpl implements ArtistAuthService {
     private final ArtistDetailsServiceImpl artistDetailsService;
     private final JwtUtil jwtUtil;
     private final TokenDecoder tokenDecoder;
+    private final AmazonClient amazonClient;
 
     @Override
-    public ResponseEntity<?> registerArtist(ArtistRegisterReq registerReq, HttpServletRequest httpRequest) throws Exception {
+    public ResponseEntity<?> registerArtist(String registerReq, HttpServletRequest httpRequest, MultipartFile artistImage) throws Exception {
         String baseURL =  ServletUriComponentsBuilder.fromRequestUri(httpRequest).replacePath(null).build().toUriString();
-        if (artistRepo.existsByEmailIgnoreCase(registerReq.getEmail())) {
+        JsonObject jsonSongDetails = JsonParser.parseString(registerReq).getAsJsonObject();
+
+        ArtistRegisterReq newRegisterReq = new ArtistRegisterReq(
+                jsonSongDetails.get("firstName").toString(),
+                jsonSongDetails.get("lastName").toString(),
+                jsonSongDetails.get("email").toString(),
+                jsonSongDetails.get("password").toString(),
+                amazonClient.uploadFile(artistImage)
+        );
+
+        if (artistRepo.existsByEmailIgnoreCase(newRegisterReq.getEmail())) {
             throw new Exception("Email already in use");
         }
-        registerReq.setPassword(passwordEncoder.encode(registerReq.getPassword()));
-        return sendArtistVerificationLink(registerReq, baseURL);
+
+        newRegisterReq.setPassword(passwordEncoder.encode(newRegisterReq.getPassword()));
+
+        return sendArtistVerificationLink(newRegisterReq, baseURL);
     }
 
     @Override
@@ -84,7 +102,10 @@ public class ArtistAuthServiceImpl implements ArtistAuthService {
                     registerReq.getEmail().trim(),
                     registerReq.getPassword(),
                     Provider.LOCAL,
-                    null
+                    null,
+                    0,
+                    registerReq.getArtistImage()
+
             );
             artistRepo.save(musicooArtist);
             tokenOrOTPService.clearTokenOrOTP(1, email);
@@ -175,14 +196,22 @@ public class ArtistAuthServiceImpl implements ArtistAuthService {
     @Override
     public ResponseEntity<?> googleRegister(String googleAuthToken, HttpServletRequest httpRequest) throws Exception {
         RegisterReq registerReq = tokenDecoder.getRegisterRequestFromToken(googleAuthToken);
-        ArtistRegisterReq artistReg = new ArtistRegisterReq(
+        MusicooArtist artist = new MusicooArtist(
                 registerReq.getFirstName(),
                 registerReq.getLastName(),
-                registerReq.getEmail(),
-                "xxx"
+                registerReq.getEmail().trim(),
+                "xxx",
+                Provider.GOOGLE,
+                null,
+                0,
+                registerReq.getImageLink()
         );
-        return registerArtist(artistReg, httpRequest);
+
+        artistRepo.save(artist);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Artist registered successfully");
     }
+
 
     @Override
     public ResponseEntity<?> googleLogin(String refreshToken) {
@@ -194,7 +223,9 @@ public class ArtistAuthServiceImpl implements ArtistAuthService {
                     registerReq.getEmail(),
                     registerReq.getPassword(),
                     Provider.LOCAL,
-                    null
+                    null,
+                    0,
+                    registerReq.getImageLink()
             );
             artistRepo.save(musicooArtist);
         }

@@ -88,5 +88,10 @@ public class Homepage {
         return service.getRecentlyPlayed(email);
     }
 
+    @GetMapping("/artits/top")
+    public ResponseEntity<?> getTopArtists() {
+        return service.topArtists();
+    }
+
 
 }

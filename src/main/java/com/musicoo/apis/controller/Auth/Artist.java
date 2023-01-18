@@ -3,6 +3,7 @@ package com.musicoo.apis.controller.Auth;
 import com.musicoo.apis.payload.request.*;
 import com.musicoo.apis.repository.ArtistRepo;
 import com.musicoo.apis.service.ArtistAuthService;
+import com.musicoo.apis.service.Implementation.ArtistAuth.ArtistAuthServiceImpl;
 import com.musicoo.apis.service.Implementation.UserAuth.UserAuthServiceImpl;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -19,13 +21,13 @@ import java.util.concurrent.ExecutionException;
 @RequestMapping("/api")
 public class Artist {
     private final UserAuthServiceImpl service;
-    private final ArtistAuthService artistService;
+    private final ArtistAuthServiceImpl artistService;
     private final ArtistRepo artistRepo;
 
     @PostMapping("/auth/signup/artist")
-    public ResponseEntity<?> registerArtist(@RequestBody ArtistRegisterReq artistRegisterReq, HttpServletRequest httpRequest) throws Exception {
+    public ResponseEntity<?> registerArtist(@RequestPart String artistRegisterReq, HttpServletRequest httpRequest, @RequestPart("artistImage")MultipartFile artistImage) throws Exception {
 //        try {
-            return artistService.registerArtist(artistRegisterReq, httpRequest);
+            return artistService.registerArtist(artistRegisterReq, httpRequest, artistImage);
 //        } catch (Exception e) {
 //            return ResponseEntity.status(HttpStatus.CONFLICT).body("This email is already being used");
 //        }

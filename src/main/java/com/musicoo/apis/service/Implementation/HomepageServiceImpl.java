@@ -60,6 +60,8 @@ public class HomepageServiceImpl implements HomepageService {
         playlistRepo.save(userPlaylist);
         song.setLikes(song.getLikes()+1);
         songRepo.save(song);
+        MusicooArtist artist = artistRepo.findMusicooArtistById(song.getArtist().getId());
+        artist.setRatings(artist.getRatings()+1);
         return ResponseEntity.status(HttpStatus.OK).body("Song added to liked");
 
     }
@@ -89,25 +91,6 @@ public class HomepageServiceImpl implements HomepageService {
         List<Song> songs = playlist.getSongs();
         return ResponseEntity.status(HttpStatus.OK).body(songs);
     }
-
-//    public ResponseEntity<?> getTopChartsPreview() {
-//        List<HashMap<String, String>> topCharts = new ArrayList<>();
-//        HashMap<String, String> hindi = new HashMap<>();
-//        hindi.put("name", "Value1");
-//        hindi.put("image", "Value2");
-//
-//        HashMap<String, String> punjabi = new HashMap<>();
-//        punjabi.put("name", "Value3");
-//        punjabi.put("image", "Value4");
-//
-//        HashMap<String, String> english = new HashMap<>();
-//        english.put("name", "Value1");
-//        english.put("image", "Value2");
-//
-//        HashMap<String, String> allTime = new HashMap<>();
-//        allTime.put("name", "Value3");
-//        allTime.put("Key4", "Value4");
-//    }
 
     @Override
     public ResponseEntity<?> getTopCharts(String nameOfChart) {
@@ -139,13 +122,8 @@ public class HomepageServiceImpl implements HomepageService {
             List<Song> songs = new ArrayList<>();
             songs.add(song);
             ListeningHistory newHistory = new ListeningHistory(user, songs);
-            System.out.println("Here works perfectly fine");
-
-//            newHistory.setHistorySongs(songs);
-//            newHistory.setUserHistory(user);
             listenHistoryRepo.save(newHistory);
         }
-        System.out.println("Here works perfectly error");
 
         return ResponseEntity.status(HttpStatus.OK).body("Song added to history");
     }
@@ -182,6 +160,10 @@ public class HomepageServiceImpl implements HomepageService {
 
     public ResponseEntity<?> allGenres() {
         return ResponseEntity.status(HttpStatus.OK).body(genreRepo.findAllGenres());
+    }
+
+    public ResponseEntity<?> topArtists() {
+        return ResponseEntity.status(HttpStatus.OK).body(artistRepo.findTopTenMusicooArtists());
     }
 
 }

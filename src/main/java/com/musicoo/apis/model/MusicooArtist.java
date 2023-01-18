@@ -26,6 +26,8 @@ public class MusicooArtist {
     private String password;
     private Role role = Role.ROLE_ARTIST;
     private Boolean isEnabled = true;
+    private int ratings;
+    private String artistImage;
     @Enumerated(EnumType.STRING)
     private Provider provider;
     @OneToMany(mappedBy = "musicooArtist", cascade = CascadeType.ALL)
@@ -38,12 +40,14 @@ public class MusicooArtist {
     @JsonIgnore
     private List<MusicooUser> musicooUsers;
 
-    public MusicooArtist(String firstName, String lastName, String email, String password, Provider provider, List<Album> albums) {
+    public MusicooArtist(String firstName, String lastName, String email, String password, Provider provider, List<Album> albums, int ratings, String artistImage) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.provider = provider;
         this.albums = albums;
+        this.ratings = ratings;
+        this.artistImage = artistImage;
     }
 }

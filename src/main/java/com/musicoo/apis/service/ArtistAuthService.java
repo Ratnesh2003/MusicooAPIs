@@ -5,12 +5,13 @@ import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 public interface ArtistAuthService {
-    ResponseEntity<?> registerArtist(ArtistRegisterReq registerReq, HttpServletRequest httpRequest) throws Exception;
+    ResponseEntity<?> registerArtist(String registerReq, HttpServletRequest httpRequest, MultipartFile artistImage) throws Exception;
     ResponseEntity<?> sendArtistVerificationLink(ArtistRegisterReq registerReq, String baseURL) throws MessagingException, ExecutionException;
     ResponseEntity<?> confirmArtistAccount(String confirmationToken, String email, HttpServletResponse response) throws ExecutionException, IOException;
     ResponseEntity<?> loginArtist(LoginReq loginReq);

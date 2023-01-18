@@ -14,6 +14,7 @@ public class TokenDecoder {
         byte[] decodedStringByte = Base64.decodeBase64(tokenParts[1]);
         String decodedString = new String(decodedStringByte);
         JsonObject jsonObject = JsonParser.parseString(decodedString).getAsJsonObject();
+        String artistImage = jsonObject.get("picture").toString();
         StringBuilder sb = new StringBuilder(jsonObject.get("name").toString());
         sb.deleteCharAt(0);
         sb.deleteCharAt(jsonObject.get("name").toString().length()-2);
@@ -23,7 +24,8 @@ public class TokenDecoder {
                 nameParts[1],
                 jsonObject.get("email").getAsString(),
                 "xxx",
-                Provider.GOOGLE
+                Provider.GOOGLE,
+                artistImage
         );
     }
 }
