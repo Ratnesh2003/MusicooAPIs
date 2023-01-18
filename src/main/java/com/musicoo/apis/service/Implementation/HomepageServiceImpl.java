@@ -92,6 +92,10 @@ public class HomepageServiceImpl implements HomepageService {
         return ResponseEntity.status(HttpStatus.OK).body(songs);
     }
 
+//    public ResponseEntity<?> getTopChartsPreview() {
+//
+//    }
+
     @Override
     public ResponseEntity<?> getTopCharts() {
         HashMap<String, List<Song>> map = new HashMap<>();

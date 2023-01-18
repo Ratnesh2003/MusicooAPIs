@@ -6,6 +6,7 @@ import com.musicoo.apis.service.Implementation.UserAuth.UserAuthServiceImpl;
 import com.musicoo.apis.service.jwt.JwtUtil;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +28,8 @@ public class User {
     }
 
     @RequestMapping(value = "/auth/confirm", method = {RequestMethod.GET, RequestMethod.POST})
-    public ResponseEntity<?> confirmUserAccount(@RequestParam String token, @RequestParam String email) throws ExecutionException {
-        return service.confirmUserAccount(token, email);
+    public ResponseEntity<?> confirmUserAccount(@RequestParam String token, @RequestParam String email, HttpServletResponse response) throws ExecutionException {
+        return service.confirmUserAccount(token, email, response);
     }
 
     @PostMapping("/auth/login")

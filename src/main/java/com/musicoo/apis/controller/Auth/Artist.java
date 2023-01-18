@@ -6,6 +6,7 @@ import com.musicoo.apis.service.ArtistAuthService;
 import com.musicoo.apis.service.Implementation.UserAuth.UserAuthServiceImpl;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,8 +31,8 @@ public class Artist {
     }
 
     @RequestMapping(value = "/auth/confirm/artist", method = {RequestMethod.GET, RequestMethod.POST})
-    public ResponseEntity<?> confirmArtist(@RequestParam String token, @RequestParam String email) throws ExecutionException {
-        return artistService.confirmArtistAccount(token, email);
+    public ResponseEntity<?> confirmArtist(@RequestParam String token, @RequestParam String email, HttpServletResponse response) throws ExecutionException {
+        return artistService.confirmArtistAccount(token, email, response);
     }
 
     @PostMapping("/auth/login/artist")

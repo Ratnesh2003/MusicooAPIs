@@ -14,6 +14,7 @@ import com.musicoo.apis.service.Implementation.TokenOrOTPServiceImpl;
 import com.musicoo.apis.service.jwt.JwtUtil;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
@@ -73,7 +75,7 @@ public class ArtistAuthServiceImpl implements ArtistAuthService {
     }
 
     @Override
-    public ResponseEntity<?> confirmArtistAccount(String confirmationToken, String email) throws ExecutionException {
+    public ResponseEntity<?> confirmArtistAccount(String confirmationToken, String email, HttpServletResponse response) throws ExecutionException, IOException {
         if (Objects.equals(tokenOrOTPService.getTokenOrOTP(1, email).toString(), confirmationToken)) {
             ArtistRegisterReq registerReq = cast(tokenOrOTPService.getTokenOrOTP(4, email));
             MusicooArtist musicooArtist = new MusicooArtist(
@@ -87,6 +89,7 @@ public class ArtistAuthServiceImpl implements ArtistAuthService {
             artistRepo.save(musicooArtist);
             tokenOrOTPService.clearTokenOrOTP(1, email);
             tokenOrOTPService.clearTokenOrOTP(4, email);
+            response.sendRedirect("http://musicoo.app.link/verify");
             return ResponseEntity.status(HttpStatus.OK).body("Account verified");
         } else {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("The link is invalid");

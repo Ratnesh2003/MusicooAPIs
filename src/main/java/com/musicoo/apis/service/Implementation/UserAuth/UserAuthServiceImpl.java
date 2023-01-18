@@ -17,6 +17,7 @@ import com.musicoo.apis.service.UserAuthService;
 import com.musicoo.apis.service.jwt.JwtUtil;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -77,7 +79,7 @@ public class UserAuthServiceImpl implements UserAuthService {
     }
 
     @Override
-    public ResponseEntity<?> confirmUserAccount(String confirmationToken, String email) throws ExecutionException {
+    public ResponseEntity<?> confirmUserAccount(String confirmationToken, String email, HttpServletResponse response) throws ExecutionException, IOException {
         if (Objects.equals(tokenOrOTPService.getTokenOrOTP(1, email).toString(), confirmationToken)) {
             RegisterReq registerReq = cast(tokenOrOTPService.getTokenOrOTP(3, email));
             MusicooUser musicooUser = new MusicooUser(
@@ -88,9 +90,9 @@ public class UserAuthServiceImpl implements UserAuthService {
                     registerReq.getProvider()
             );
             userRepo.save(musicooUser);
-//            userRepo.save(cast(tokenOrOTPService.getTokenOrOTP(3, email)));
             tokenOrOTPService.clearTokenOrOTP(1, email);
             tokenOrOTPService.clearTokenOrOTP(3, email);
+            response.sendRedirect("http://musicoo.app.link/verify");
             return ResponseEntity.status(HttpStatus.OK).body("Account verified");
         } else {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("The link is invalid");
