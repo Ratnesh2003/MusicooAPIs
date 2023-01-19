@@ -109,13 +109,14 @@ public class HomepageServiceImpl implements HomepageService {
         return ResponseEntity.status(HttpStatus.OK).body(songRepo.findById(id));
     }
 
+    public ResponseEntity<?> searchRandomSongs() {
+        return ResponseEntity.ok().body(songRepo.findRandomSongs());
+    }
+
     public ResponseEntity<?> search(String searchText) {
         List<Song> songs = searchThroughSongName(searchText);
-        System.out.println("Worked fine here");
         if (songs.isEmpty()) {
-            System.out.println("Before Here");
             List<MusicooArtist> artists = searchArtistThroughName(searchText);
-            System.out.println("Hwerer");
             return ResponseEntity.ok().body(artists);
         }
         return ResponseEntity.ok().body(songs);
@@ -132,8 +133,6 @@ public class HomepageServiceImpl implements HomepageService {
         return artistRepo.findMusicooArtistsByFirstNameIsContainingIgnoreCase(searchText);
     }
 
-//    private List<Song> searchSongThroughGenre(String searchText) {
-//        return songRepo.findByGenre()
-//    }
+
 
 }

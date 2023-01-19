@@ -80,5 +80,10 @@ public class Homepage {
         return service.search(searchText);
     }
 
+    @GetMapping("/songs/random")
+    public ResponseEntity<?> randomSongs() {
+        return service.searchRandomSongs();
+    }
+
 
 }

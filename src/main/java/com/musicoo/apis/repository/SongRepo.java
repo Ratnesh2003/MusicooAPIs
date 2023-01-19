@@ -24,6 +24,7 @@ public interface SongRepo extends JpaRepository<Song, Long> {
     @Query(value = "SELECT * from \"song\" where LOWER(\"s_name\") like LOWER(CONCAT('%',:searchText,'%'))", nativeQuery = true)
     List<Song> findSongsBySNameContainingIgnoreCase(String searchText);
 
-//    List<Song> findSongsByGenre(Genre genre);
+    @Query(value = "SELECT * FROM \"song\" ORDER BY RANDOM() LIMIT 10", nativeQuery = true)
+    List<Song> findRandomSongs();
 
 }
