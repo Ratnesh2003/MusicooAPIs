@@ -35,66 +35,6 @@ public class HomepageServiceImpl implements HomepageService {
         }
         return ResponseEntity.status(HttpStatus.OK).body(songs);
     }
-
-//    public ResponseEntity<?> addToPlaylist(OnlyIdReq onlyIdReq, String email) {
-//        UserPlaylist userPlaylist = playlistRepo.findByPlaylistNameAndMusicooUser();
-//    }
-
-//    @Override
-//    public ResponseEntity<?> addToLiked(OnlyIdReq onlyIdReq, String email) {
-//        MusicooUser musicooUser = userRepo.findByEmailIgnoreCase(email);
-//        Song song = songRepo.findById(onlyIdReq.songId());
-//        if (!playlistRepo.existsByPlaylistNameAndMusicooUser("Liked", musicooUser)) {
-//            UserPlaylist userPlaylist = new UserPlaylist();
-//            userPlaylist.setPlaylistName("Liked");
-//            userPlaylist.setSongs(null);
-//            playlistRepo.save(userPlaylist);
-//        }
-//
-//        UserPlaylist userPlaylist = playlistRepo.findByPlaylistNameAndMusicooUser("Liked", musicooUser);
-//        List<Song> newSongList = userPlaylist.getSongs();
-//        if (!newSongList.isEmpty() && newSongList.contains(song)) {
-//            return ResponseEntity.status(HttpStatus.CONFLICT).body("Song has been liked already");
-//        }
-//
-//        newSongList.add(song);
-//        userPlaylist.setSongs(newSongList);
-//        playlistRepo.save(userPlaylist);
-//        song.setLikes(song.getLikes()+1);
-//        songRepo.save(song);
-//        MusicooArtist artist = artistRepo.findMusicooArtistById(song.getArtist().getId());
-//        artist.setRatings(artist.getRatings()+1);
-//        return ResponseEntity.status(HttpStatus.OK).body("Song added to liked");
-//
-//    }
-
-
-//    @Override
-//    public ResponseEntity<?> getAllPlaylists(String email) {
-//        MusicooUser user = userRepo.findByEmailIgnoreCase(email);
-//        List<UserPlaylist> userPlaylists = playlistRepo.findByMusicooUser(user);
-//        return ResponseEntity.status(HttpStatus.OK).body(userPlaylists);
-//    }
-
-//    @Override
-//    public ResponseEntity<?> getSongsOfPlaylist(long pId, String email) {
-//        MusicooUser user = userRepo.findByEmailIgnoreCase(email);
-//        UserPlaylist playlist = playlistRepo.findByIdAndMusicooUser(pId, user);
-//        List<Song> songs = playlist.getSongs();
-//        if (!songs.isEmpty()) {
-//            return ResponseEntity.status(HttpStatus.OK).body(songs);
-//        }
-//        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-//    }
-
-//    @Override
-//    public ResponseEntity<?> getLikedSongs(String email) {
-//        MusicooUser user = userRepo.findByEmailIgnoreCase(email);
-//        UserPlaylist playlist = playlistRepo.findByPlaylistNameAndMusicooUser("Liked", user);
-//        List<Song> songs = playlist.getSongs();
-//        return ResponseEntity.status(HttpStatus.OK).body(songs);
-//    }
-
     @Override
     public ResponseEntity<?> getTopCharts(String nameOfChart) {
         if (Objects.equals(nameOfChart, "ALLTIME")) {
@@ -143,17 +83,7 @@ public class HomepageServiceImpl implements HomepageService {
         MusicooUser user = userRepo.findByEmailIgnoreCase(email);
         ListeningHistory history = listenHistoryRepo.findByUserHistory(user);
         List<Song> allHistorySongs = history.getHistorySongs();
-        List<SongPreviewRes> songPreviewRes = new ArrayList<>();
-        for (Song song: allHistorySongs) {
-            SongPreviewRes songPreview = new SongPreviewRes(
-                    song.getSName(),
-                    song.getId(),
-                    song.getCoverImagePath(),
-                    song.getArtist().getFirstName() + " " + song.getArtist().getLastName()
-            );
-            songPreviewRes.add(songPreview);
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(songPreviewRes);
+        return ResponseEntity.status(HttpStatus.OK).body(allHistorySongs);
         
     }
 
