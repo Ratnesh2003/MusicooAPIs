@@ -1,6 +1,5 @@
 package com.musicoo.apis.controller;
 
-import com.amazonaws.Response;
 import com.musicoo.apis.payload.request.OnlyIdReq;
 import com.musicoo.apis.service.Implementation.HomepageServiceImpl;
 import com.musicoo.apis.service.jwt.JwtUtil;
@@ -23,34 +22,6 @@ public class Homepage {
         String requestTokenHeader =httpRequest.getHeader("Authorization");
         String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
         return service.quickPicks(email);
-    }
-
-    @PostMapping("/song/add-to-liked")
-    public ResponseEntity<?> addToLiked(@RequestBody OnlyIdReq onlyIdReq, HttpServletRequest httpRequest) {
-        String requestTokenHeader =httpRequest.getHeader("Authorization");
-        String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
-        return service.addToLiked(onlyIdReq, email);
-    }
-
-    @GetMapping("/playlists")
-    public ResponseEntity<?> getAllPlaylists(HttpServletRequest httpRequest) {
-        String requestTokenHeader = httpRequest.getHeader("Authorization");
-        String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
-        return service.getAllPlaylists(email);
-    }
-
-    @GetMapping("/playlist/{id}")
-    public ResponseEntity<?> getSongsOfPlaylist(@PathVariable long id, HttpServletRequest httpRequest) {
-        String requestTokenHeader = httpRequest.getHeader("Authorization");
-        String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
-        return service.getSongsOfPlaylist(id, email);
-    }
-
-    @GetMapping("/playlist/liked")
-    public ResponseEntity<?> getLikedSongs(HttpServletRequest httpRequest) {
-        String requestTokenHeader = httpRequest.getHeader("Authorization");
-        String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
-        return service.getLikedSongs(email);
     }
 
     @GetMapping("/home/charts/top/{lang}")

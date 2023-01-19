@@ -15,7 +15,7 @@ import java.util.function.Function;
 @NoArgsConstructor
 public class JwtUtil {
 
-    public static final long ACCESS_JWT_TOKEN_VALIDITY =  3 * 60;
+    public static final long ACCESS_JWT_TOKEN_VALIDITY =  24 * 60 * 60;
     public static final long REFRESH_JWT_TOKEN_VALIDITY = 30 * 24 * 60 * 60;
 
     private String secret = "MusicooSpringSecurityIamWritingThisJustToExtendTheSizeOfTheSecurityKeyIThinkItShouldWorkNow";

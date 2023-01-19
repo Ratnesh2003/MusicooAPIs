@@ -8,7 +8,8 @@ import java.util.List;
 
 public interface PlaylistRepo extends JpaRepository<UserPlaylist, Long> {
     UserPlaylist findByPlaylistNameAndMusicooUser(String name, MusicooUser musicooUser);
-    Boolean existsByPlaylistNameAndMusicooUser(String name, MusicooUser musicooUser);
+    Boolean existsByPlaylistNameIgnoreCaseAndMusicooUser(String name, MusicooUser musicooUser);
     UserPlaylist findByIdAndMusicooUser(long id, MusicooUser musicooUser);
     List<UserPlaylist> findByMusicooUser(MusicooUser user);
+    void deleteByMusicooUserAndId(MusicooUser user, long id);
 }
