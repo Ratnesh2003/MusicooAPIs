@@ -1,5 +1,6 @@
 package com.musicoo.apis.service.Implementation;
 
+import com.musicoo.apis.controller.Auth.Artist;
 import com.musicoo.apis.model.*;
 import com.musicoo.apis.model.enums.SongLanguage;
 import com.musicoo.apis.payload.request.OnlyIdReq;
@@ -37,7 +38,7 @@ public class HomepageServiceImpl implements HomepageService {
     }
     @Override
     public ResponseEntity<?> getTopCharts(String nameOfChart) {
-        if (Objects.equals(nameOfChart, "ALLTIME")) {
+        if (Objects.equals(nameOfChart.toUpperCase(), "ALLTIME")) {
             List<Song> allTopSongs = songRepo.findTopHundredSongsByLikes();
             return ResponseEntity.status(HttpStatus.OK).body(allTopSongs);
         }
@@ -107,5 +108,32 @@ public class HomepageServiceImpl implements HomepageService {
     public ResponseEntity<?> listenSong(Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(songRepo.findById(id));
     }
+
+    public ResponseEntity<?> search(String searchText) {
+        List<Song> songs = searchThroughSongName(searchText);
+        System.out.println("Worked fine here");
+        if (songs.isEmpty()) {
+            System.out.println("Before Here");
+            List<MusicooArtist> artists = searchArtistThroughName(searchText);
+            System.out.println("Hwerer");
+            return ResponseEntity.ok().body(artists);
+        }
+        return ResponseEntity.ok().body(songs);
+
+    }
+
+    private List<Song> searchThroughSongName(String searchText) {
+        System.out.println("Error");
+        return songRepo.findSongsBySNameContainingIgnoreCase(searchText);
+    }
+
+    private List<MusicooArtist> searchArtistThroughName(String searchText) {
+        System.out.println("Error2");
+        return artistRepo.findMusicooArtistsByFirstNameIsContainingIgnoreCase(searchText);
+    }
+
+//    private List<Song> searchSongThroughGenre(String searchText) {
+//        return songRepo.findByGenre()
+//    }
 
 }

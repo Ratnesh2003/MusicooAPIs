@@ -15,11 +15,15 @@ public interface SongRepo extends JpaRepository<Song, Long> {
 
     Song findById(long id);
 
-//    @Query(value = "SELECT TOP 100 \"id\", \"s_name\", \"s_release\", \"likes\", \"duration\", \"cover_image_path\" ", nativeQuery = true)
     @Query(value = "SELECT * from \"song\" order by \"likes\" desc limit 100", nativeQuery = true)
     List<Song> findTopHundredSongsByLikes();
 
     @Query(value = "SELECT * from \"song\" where \"language\" like %?1% order by \"likes\" desc limit 100", nativeQuery = true)
     List<Song> findTopHundredSongsByLikesAndLanguage(SongLanguage lang);
+
+    @Query(value = "SELECT * from \"song\" where LOWER(\"s_name\") like LOWER(CONCAT('%',:searchText,'%'))", nativeQuery = true)
+    List<Song> findSongsBySNameContainingIgnoreCase(String searchText);
+
+//    List<Song> findSongsByGenre(Genre genre);
 
 }

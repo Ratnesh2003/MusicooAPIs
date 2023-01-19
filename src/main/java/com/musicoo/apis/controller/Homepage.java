@@ -75,5 +75,10 @@ public class Homepage {
         return service.listenSong(id);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<?> search(@RequestParam String searchText) {
+        return service.search(searchText);
+    }
+
 
 }
