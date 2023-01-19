@@ -246,4 +246,6 @@ public class ArtistAuthServiceImpl implements ArtistAuthService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid Token");
         }
     }
+
+
 }

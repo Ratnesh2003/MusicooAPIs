@@ -13,4 +13,5 @@ public interface HomepageService {
     public ResponseEntity<?> addToHistory(long id, String email);
     public ResponseEntity<?> getRecentlyPlayed(String email);
     public ResponseEntity<?> getFullHistory(String email);
+    public ResponseEntity<?> viewArtist(Long id);
 }

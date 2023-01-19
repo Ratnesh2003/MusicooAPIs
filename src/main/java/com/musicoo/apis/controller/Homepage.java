@@ -1,5 +1,6 @@
 package com.musicoo.apis.controller;
 
+import com.amazonaws.Response;
 import com.musicoo.apis.payload.request.OnlyIdReq;
 import com.musicoo.apis.service.Implementation.HomepageServiceImpl;
 import com.musicoo.apis.service.jwt.JwtUtil;
@@ -88,9 +89,19 @@ public class Homepage {
         return service.getRecentlyPlayed(email);
     }
 
-    @GetMapping("/artits/top")
+    @GetMapping("/artists/top")
     public ResponseEntity<?> getTopArtists() {
         return service.topArtists();
+    }
+
+    @GetMapping("/artist/view/{id}")
+    public ResponseEntity<?> getArtist(@PathVariable Long id) {
+        return service.viewArtist(id);
+    }
+
+    @GetMapping("/song/{id}")
+    public ResponseEntity<?> getSong(@PathVariable Long id) {
+        return service.listenSong(id);
     }
 
 

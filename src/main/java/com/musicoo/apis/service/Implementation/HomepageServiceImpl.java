@@ -38,6 +38,10 @@ public class HomepageServiceImpl implements HomepageService {
         return ResponseEntity.status(HttpStatus.OK).body(songs);
     }
 
+//    public ResponseEntity<?> addToPlaylist(OnlyIdReq onlyIdReq, String email) {
+//        UserPlaylist userPlaylist = playlistRepo.findByPlaylistNameAndMusicooUser();
+//    }
+
     @Override
     public ResponseEntity<?> addToLiked(OnlyIdReq onlyIdReq, String email) {
         MusicooUser musicooUser = userRepo.findByEmailIgnoreCase(email);
@@ -164,6 +168,15 @@ public class HomepageServiceImpl implements HomepageService {
 
     public ResponseEntity<?> topArtists() {
         return ResponseEntity.status(HttpStatus.OK).body(artistRepo.findTopTenMusicooArtists());
+    }
+
+    @Override
+    public ResponseEntity<?> viewArtist(Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(artistRepo.findMusicooArtistById(id));
+    }
+
+    public ResponseEntity<?> listenSong(Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(songRepo.findById(id));
     }
 
 }
