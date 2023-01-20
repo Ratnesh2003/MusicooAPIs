@@ -7,6 +7,7 @@ import com.musicoo.apis.payload.request.PlaylistNameReq;
 import com.musicoo.apis.service.Implementation.PlaylistService;
 import com.musicoo.apis.service.jwt.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -60,6 +61,14 @@ public class Playlist {
         String requestTokenHeader = httpRequest.getHeader("Authorization");
         String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
         return service.addToPlaylist(playlistAddReq.songId(), playlistAddReq.playlistId(), email);
+    }
+
+    @DeleteMapping("/playlist/delete")
+    @Transactional
+    public ResponseEntity<?> deletePlaylist(@RequestParam("playlistId") long playlistId, HttpServletRequest httpRequest) {
+        String requestTokenHeader = httpRequest.getHeader("Authorization");
+        String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
+        return service.deletePlaylist(playlistId, email);
     }
 
 

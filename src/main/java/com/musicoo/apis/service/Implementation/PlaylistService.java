@@ -51,7 +51,7 @@ public class PlaylistService {
 
     public ResponseEntity<?> deletePlaylist(Long playlistId, String email) {
         MusicooUser user = userRepo.findByEmailIgnoreCase(email);
-        UserPlaylist playlist = playlistRepo.findByIdAndMusicooUser(playlistId, user);
+//        UserPlaylist playlist = playlistRepo.findByIdAndMusicooUser(playlistId, user);
         playlistRepo.deleteByMusicooUserAndId(user, playlistId);
         return ResponseEntity.status(HttpStatus.OK).body("Playlist deleted successfully");
     }
