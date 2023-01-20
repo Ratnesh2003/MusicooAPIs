@@ -255,4 +255,12 @@ public class UserAuthServiceImpl implements UserAuthService {
         userRepo.save(user);
         return ResponseEntity.status(HttpStatus.OK).body("Details updated successfully");
     }
+
+    public ResponseEntity<?> changeName(String email, String firstName, String lastName) {
+        MusicooUser user = userRepo.findByEmailIgnoreCase(email);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        userRepo.save(user);
+        return ResponseEntity.ok().body("Name changed successfully");
+    }
 }

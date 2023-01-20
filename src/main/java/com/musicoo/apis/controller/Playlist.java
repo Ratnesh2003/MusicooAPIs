@@ -25,7 +25,7 @@ public class Playlist {
     public ResponseEntity<?> addToLiked(@RequestBody OnlyIdReq onlyIdReq, HttpServletRequest httpRequest) {
         String requestTokenHeader =httpRequest.getHeader("Authorization");
         String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
-        return service.addToLiked(onlyIdReq, email);
+        return service.likeUnlike(onlyIdReq, email);
     }
 
     @GetMapping("/playlists")

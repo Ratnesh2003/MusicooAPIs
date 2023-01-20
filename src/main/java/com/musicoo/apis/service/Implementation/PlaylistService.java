@@ -51,14 +51,17 @@ public class PlaylistService {
 
     public ResponseEntity<?> deletePlaylist(Long playlistId, String email) {
         MusicooUser user = userRepo.findByEmailIgnoreCase(email);
-//        UserPlaylist playlist = playlistRepo.findByIdAndMusicooUser(playlistId, user);
         playlistRepo.deleteByMusicooUserAndId(user, playlistId);
         return ResponseEntity.status(HttpStatus.OK).body("Playlist deleted successfully");
     }
 
     public ResponseEntity<?> getAllPlaylists(String email) {
         MusicooUser user = userRepo.findByEmailIgnoreCase(email);
+        UserPlaylist likedPlaylist = playlistRepo.findByPlaylistNameAndMusicooUser("Liked", user);
         List<UserPlaylist> userPlaylists = playlistRepo.findByMusicooUser(user);
+        if (likedPlaylist != null) {
+            userPlaylists.remove(likedPlaylist);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(userPlaylists);
     }
 
@@ -79,7 +82,7 @@ public class PlaylistService {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
-    public ResponseEntity<?> addToLiked(OnlyIdReq onlyIdReq, String email) {
+    public ResponseEntity<?> likeUnlike(OnlyIdReq onlyIdReq, String email) {
         MusicooUser musicooUser = userRepo.findByEmailIgnoreCase(email);
         Song song = songRepo.findById(onlyIdReq.songId());
         if (!playlistRepo.existsByPlaylistNameIgnoreCaseAndMusicooUser("Liked", musicooUser)) {
@@ -93,7 +96,11 @@ public class PlaylistService {
         UserPlaylist userPlaylist = playlistRepo.findByPlaylistNameAndMusicooUser("Liked", musicooUser);
         List<Song> newSongList = userPlaylist.getSongs();
         if (!newSongList.isEmpty() && newSongList.contains(song)) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Song has been liked already");
+            newSongList.remove(song);
+            song.setLikes(song.getLikes()-1);
+            userPlaylist.setSongs(newSongList);
+            playlistRepo.save(userPlaylist);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Song removed from liked");
         }
 
         newSongList.add(song);

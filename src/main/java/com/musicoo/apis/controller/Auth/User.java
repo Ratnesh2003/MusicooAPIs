@@ -80,6 +80,13 @@ public class User {
         return service.addChoices(email, choicesReq);
     }
 
+    @PutMapping("/profile/change/name")
+    public ResponseEntity<?> changeName(@RequestBody NameChangeReq changeReq, HttpServletRequest httpRequest) {
+        String requestTokenHeader = httpRequest.getHeader("Authorization");
+        String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
+        return service.changeName(email, changeReq.firstName(), changeReq.lastName());
+    }
+
     @GetMapping("/test")
     public ResponseEntity<?> testApi() {
         return ResponseEntity.ok().body("This is a test API");
