@@ -5,6 +5,7 @@ import com.musicoo.apis.helper.TokenDecoder;
 import com.musicoo.apis.model.Genre;
 import com.musicoo.apis.model.MusicooArtist;
 import com.musicoo.apis.model.MusicooUser;
+import com.musicoo.apis.model.enums.Provider;
 import com.musicoo.apis.payload.request.*;
 import com.musicoo.apis.payload.response.TokenRefreshResponse;
 import com.musicoo.apis.payload.response.UserDetailsRes;
@@ -201,7 +202,15 @@ public class UserAuthServiceImpl implements UserAuthService {
     @Override
     public ResponseEntity<?> googleRegister(String googleAuthToken, HttpServletRequest httpRequest) throws MessagingException, ExecutionException {
         RegisterReq registerReq = tokenDecoder.getRegisterRequestFromToken(googleAuthToken);
-        return registerUser(registerReq, httpRequest);
+        MusicooUser user = new MusicooUser(
+                registerReq.getFirstName(),
+                registerReq.getLastName(),
+                registerReq.getEmail().trim(),
+                "xxx",
+                Provider.GOOGLE
+        );
+        userRepo.save(user);
+        return ResponseEntity.status(HttpStatus.OK).body("User registered successfully");
     }
 
     @Override
