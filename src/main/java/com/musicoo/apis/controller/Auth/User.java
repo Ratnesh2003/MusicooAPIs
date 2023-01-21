@@ -87,6 +87,13 @@ public class User {
         return service.changeName(email, changeReq.firstName(), changeReq.lastName());
     }
 
+    @GetMapping("/profile")
+    public ResponseEntity<?> viewProfile(HttpServletRequest httpRequest) {
+        String requestTokenHeader = httpRequest.getHeader("Authorization");
+        String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
+        return service.viewUserProfile(email);
+    }
+
     @GetMapping("/test")
     public ResponseEntity<?> testApi() {
         return ResponseEntity.ok().body("This is a test API");

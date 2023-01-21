@@ -7,6 +7,7 @@ import com.musicoo.apis.model.MusicooArtist;
 import com.musicoo.apis.model.MusicooUser;
 import com.musicoo.apis.payload.request.*;
 import com.musicoo.apis.payload.response.TokenRefreshResponse;
+import com.musicoo.apis.payload.response.UserDetailsRes;
 import com.musicoo.apis.payload.response.UserInfoResponse;
 import com.musicoo.apis.repository.ArtistRepo;
 import com.musicoo.apis.repository.GenreRepo;
@@ -262,5 +263,10 @@ public class UserAuthServiceImpl implements UserAuthService {
         user.setLastName(lastName);
         userRepo.save(user);
         return ResponseEntity.ok().body("Name changed successfully");
+    }
+
+    public ResponseEntity<?> viewUserProfile(String email) {
+        List<?> user = userRepo.findLimitedByEmail(email);
+        return ResponseEntity.ok().body(user.get(0));
     }
 }

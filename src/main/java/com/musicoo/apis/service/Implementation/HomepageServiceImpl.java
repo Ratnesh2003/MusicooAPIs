@@ -1,9 +1,7 @@
 package com.musicoo.apis.service.Implementation;
 
-import com.musicoo.apis.controller.Auth.Artist;
 import com.musicoo.apis.model.*;
 import com.musicoo.apis.model.enums.SongLanguage;
-import com.musicoo.apis.payload.request.OnlyIdReq;
 import com.musicoo.apis.payload.response.SongPreviewRes;
 import com.musicoo.apis.repository.*;
 import com.musicoo.apis.service.HomepageService;
@@ -21,7 +19,6 @@ public class HomepageServiceImpl implements HomepageService {
     private final SongRepo songRepo;
     private final GenreRepo genreRepo;
     private final UserRepo userRepo;
-    private final PlaylistRepo playlistRepo;
     private final ArtistRepo artistRepo;
     private final ListenHistoryRepo listenHistoryRepo;
 

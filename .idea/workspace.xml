@@ -6,10 +6,21 @@
   <component name="ChangeListManager">
     <list default="true" id="f5836bad-17fc-47f6-94c8-dfa4b09ea252" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/config/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/controller/Auth/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/controller/Auth/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/controller/Playlist.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/controller/Playlist.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/PlaylistService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/PlaylistService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/repository/AlbumRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/repository/AlbumRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/repository/ArtistRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/repository/ArtistRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/repository/UserRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/repository/UserRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/ArtistServicesImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/ArtistServicesImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/HomepageServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/HomepageServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/UserAuth/UserAuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/UserAuth/UserAuthServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yt5s.com - Alan Walker - Darkside (feat. Au_Ra and Tomine Harket) (128 kbps).mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yt5s.com - Alan Walker - Faded (128 kbps).mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yt5s.com - Alan Walker - I Don't Wanna Go (Lyrics) ft. Julie Bergan (128 kbps).mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yt5s.com - Alan Walker - Sing Me To Sleep (128 kbps).mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yt5s.com - Alan Walker ‒ Lost Control (Lyrics) ft. Sorana (128 kbps).mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yt5s.com - Alan Walker, K-391 &amp; Emelie Hollow - Lily (Lyrics) (128 kbps).mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yt5s.com - Alan Walker, Sabrina Carpenter &amp; Farruko  - On My Way (128 kbps).mp3" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,8 +32,8 @@
       <list>
         <option value="Enum" />
         <option value="Interface" />
-        <option value="Class" />
         <option value="Record" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -141,7 +152,8 @@
       <workItem from="1674123433169" duration="1470000" />
       <workItem from="1674126290581" duration="15859000" />
       <workItem from="1674198307376" duration="761000" />
-      <workItem from="1674231397601" duration="6245000" />
+      <workItem from="1674231397601" duration="6951000" />
+      <workItem from="1674285212224" duration="8572000" />
     </task>
     <servers />
   </component>

@@ -23,8 +23,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final JwtAuthEntryPoint jwtAuthEntryPoint;
     private final AuthTokenFilter authTokenFilter;
-//    private final UserAuthServiceImpl userAuthService;
-//    private final OAuth2UserServiceImpl oAuth2UserService;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -34,6 +32,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/test").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/oauth/**").permitAll()
+                .requestMatchers("/error").permitAll()
+                .requestMatchers("/error/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()

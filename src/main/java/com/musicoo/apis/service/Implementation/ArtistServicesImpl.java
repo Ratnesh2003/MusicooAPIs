@@ -52,7 +52,7 @@ public class ArtistServicesImpl implements ArtistServices {
     public ResponseEntity<?> uploadSong(String songDetails, MultipartFile coverImage, MultipartFile audioFile, MusicooArtist artist) {
         JsonObject jsonSongDetails = JsonParser.parseString(songDetails).getAsJsonObject();
 
-        Album album = albumRepo.findById(Long.parseLong(jsonSongDetails.get("albumId").toString()));
+        Album album = albumRepo.findByIdAndMusicooArtist(Long.parseLong(jsonSongDetails.get("albumId").toString()), artist);
         Genre genre = genreRepo.findById(Long.parseLong(jsonSongDetails.get("genreId").toString()));
 
 
