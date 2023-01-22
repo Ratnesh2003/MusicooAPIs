@@ -145,13 +145,20 @@ public class HomepageServiceImpl implements HomepageService {
     }
 
     private List<Song> searchThroughSongName(String searchText) {
-        System.out.println("Error");
         return songRepo.findSongsBySNameContainingIgnoreCase(searchText);
     }
 
     private List<MusicooArtist> searchArtistThroughName(String searchText) {
-        System.out.println("Error2");
         return artistRepo.findMusicooArtistsByFirstNameIsContainingIgnoreCase(searchText);
+    }
+
+    public ResponseEntity<?> checkLiked(long songId, String email) {
+        MusicooUser user = userRepo.findByEmailIgnoreCase(email);
+        UserPlaylist likedPlaylist = playlistRepo.findByPlaylistNameAndMusicooUser("Liked", user);
+        Song song = songRepo.findSongById(songId);
+        return likedPlaylist != null && likedPlaylist.getSongs().contains(song)
+                ? ResponseEntity.status(HttpStatus.OK).body(true)
+                : ResponseEntity.status(HttpStatus.OK).body(false);
     }
 
 

@@ -92,6 +92,12 @@ public class Homepage {
         return service.searchRandomSongs(email);
     }
 
+    @GetMapping("/check/liked")
+    public ResponseEntity<?> checkLiked(@RequestParam("songId") long songId, HttpServletRequest httpRequest) {
+        String requestTokenHeader = httpRequest.getHeader("Authorization");
+        String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
+        return service.checkLiked(songId, email);
+    }
 
 
 }

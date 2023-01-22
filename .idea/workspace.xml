@@ -7,10 +7,7 @@
     <list default="true" id="f5836bad-17fc-47f6-94c8-dfa4b09ea252" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/controller/Homepage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/controller/Homepage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/controller/Playlist.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/controller/Playlist.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/HomepageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/HomepageService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/HomepageServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/HomepageServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/PlaylistService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/musicoo/apis/service/Implementation/PlaylistService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,7 +141,7 @@
       <workItem from="1674198307376" duration="761000" />
       <workItem from="1674231397601" duration="6951000" />
       <workItem from="1674285212224" duration="10033000" />
-      <workItem from="1674387750440" duration="12499000" />
+      <workItem from="1674387750440" duration="13303000" />
     </task>
     <servers />
   </component>
