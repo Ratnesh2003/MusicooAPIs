@@ -15,6 +15,8 @@ public interface SongRepo extends JpaRepository<Song, Long> {
 
     Song findById(long id);
 
+    Song findSongById(long id);
+
     @Query(value = "SELECT * from \"song\" order by \"likes\" desc limit 100", nativeQuery = true)
     List<Song> findTopHundredSongsByLikes();
 

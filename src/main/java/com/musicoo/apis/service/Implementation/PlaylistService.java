@@ -1,6 +1,7 @@
 package com.musicoo.apis.service.Implementation;
 
 import com.amazonaws.Response;
+import com.musicoo.apis.helper.SongHelper;
 import com.musicoo.apis.model.MusicooArtist;
 import com.musicoo.apis.model.MusicooUser;
 import com.musicoo.apis.model.Song;
@@ -24,6 +25,7 @@ public class PlaylistService {
     private final PlaylistRepo playlistRepo;
     private final SongRepo songRepo;
     private final ArtistRepo artistRepo;
+    private final SongHelper songHelper;
 
     public ResponseEntity<?> createPlaylist(String email, String nameOfPlaylist){
         MusicooUser user = userRepo.findByEmailIgnoreCase(email);
@@ -77,7 +79,7 @@ public class PlaylistService {
         UserPlaylist playlist = playlistRepo.findByIdAndMusicooUser(pId, user);
         List<Song> songs = playlist.getSongs();
         if (!songs.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.OK).body(songs);
+            return ResponseEntity.status(HttpStatus.OK).body(songHelper.getSongList(songs, user));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }

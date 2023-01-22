@@ -1,8 +1,10 @@
 package com.musicoo.apis.service.Implementation;
 
+import com.musicoo.apis.helper.SongHelper;
 import com.musicoo.apis.model.*;
 import com.musicoo.apis.model.enums.SongLanguage;
 import com.musicoo.apis.payload.response.SongPreviewRes;
+import com.musicoo.apis.payload.response.SongRes;
 import com.musicoo.apis.repository.*;
 import com.musicoo.apis.service.HomepageService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,8 @@ public class HomepageServiceImpl implements HomepageService {
     private final UserRepo userRepo;
     private final ArtistRepo artistRepo;
     private final ListenHistoryRepo listenHistoryRepo;
+    private final SongHelper songHelper;
+    private final PlaylistRepo playlistRepo;
 
     @Override
     public ResponseEntity<?> quickPicks(String email) {
@@ -102,12 +106,30 @@ public class HomepageServiceImpl implements HomepageService {
         return ResponseEntity.status(HttpStatus.OK).body(artistRepo.findMusicooArtistById(id));
     }
 
-    public ResponseEntity<?> listenSong(Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(songRepo.findById(id));
+    public ResponseEntity<?> listenSong(Long id, String email) {
+        Song song = songRepo.findSongById(id);
+        MusicooUser user = userRepo.findByEmailIgnoreCase(email);
+        UserPlaylist likedPlaylist = playlistRepo.findByPlaylistNameAndMusicooUser("Liked", user);
+        boolean liked = likedPlaylist.getSongs().contains(song);
+        SongRes songRes = new SongRes(
+                song.getId(),
+                song.getSName(),
+                song.getSRelease(),
+                song.getLikes(),
+                song.getLanguage(),
+                song.getDuration(),
+                song.getCoverImagePath(),
+                song.getAudioPath(),
+                song.getArtist().getId(),
+                song.getArtist().getFirstName() + " " + song.getArtist().getLastName(),
+                liked);
+        return ResponseEntity.status(HttpStatus.OK).body(songRes);
     }
 
-    public ResponseEntity<?> searchRandomSongs() {
-        return ResponseEntity.ok().body(songRepo.findRandomSongs());
+    public ResponseEntity<?> searchRandomSongs(String email) {
+        MusicooUser user = userRepo.findByEmailIgnoreCase(email);
+        List<Song> songsList = songRepo.findRandomSongs();
+        return ResponseEntity.ok().body(songHelper.getSongList(songsList, user));
     }
 
     public ResponseEntity<?> search(String searchText) {

@@ -72,8 +72,10 @@ public class Homepage {
     }
 
     @GetMapping("/song/{id}")
-    public ResponseEntity<?> getSong(@PathVariable Long id) {
-        return service.listenSong(id);
+    public ResponseEntity<?> getSong(@PathVariable Long id, HttpServletRequest httpRequest) {
+        String requestTokenHeader = httpRequest.getHeader("Authorization");
+        String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
+        return service.listenSong(id, email);
     }
 
     @GetMapping("/search")
@@ -82,8 +84,10 @@ public class Homepage {
     }
 
     @GetMapping("/songs/random")
-    public ResponseEntity<?> randomSongs() {
-        return service.searchRandomSongs();
+    public ResponseEntity<?> randomSongs(HttpServletRequest httpRequest) {
+        String requestTokenHeader = httpRequest.getHeader("Authorization");
+        String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
+        return service.searchRandomSongs(email);
     }
 
 
