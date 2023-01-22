@@ -10,7 +10,7 @@ public interface HomepageService {
 //    public ResponseEntity<?> getAllPlaylists(String email);
 //    public ResponseEntity<?> getSongsOfPlaylist(long pId, String email);
 //    public ResponseEntity<?> getLikedSongs(String email);
-    public ResponseEntity<?> getTopCharts(String topChartsLang);
+    public ResponseEntity<?> getTopCharts(String topChartsLang, String email);
     public ResponseEntity<?> addToHistory(long id, String email);
     public ResponseEntity<?> getRecentlyPlayed(String email);
     public ResponseEntity<?> getFullHistory(String email);

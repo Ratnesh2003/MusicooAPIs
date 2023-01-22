@@ -38,10 +38,11 @@ public class HomepageServiceImpl implements HomepageService {
         return ResponseEntity.status(HttpStatus.OK).body(songs);
     }
     @Override
-    public ResponseEntity<?> getTopCharts(String nameOfChart) {
+    public ResponseEntity<?> getTopCharts(String nameOfChart, String email) {
+        MusicooUser user = userRepo.findByEmailIgnoreCase(email);
         if (Objects.equals(nameOfChart.toUpperCase(), "ALLTIME")) {
             List<Song> allTopSongs = songRepo.findTopHundredSongsByLikes();
-            return ResponseEntity.status(HttpStatus.OK).body(allTopSongs);
+            return ResponseEntity.status(HttpStatus.OK).body(songHelper.getSongList(allTopSongs, user));
         }
         try {
             SongLanguage lang = SongLanguage.valueOf(nameOfChart.toUpperCase());
@@ -60,6 +61,7 @@ public class HomepageServiceImpl implements HomepageService {
         ListeningHistory history = listenHistoryRepo.findByUserHistory(user);
         if (history != null) {
             List<Song> songs = history.getHistorySongs();
+            songs.remove(song);
             songs.add(song);
             history.setHistorySongs(songs);
             listenHistoryRepo.save(history);
@@ -85,7 +87,7 @@ public class HomepageServiceImpl implements HomepageService {
         MusicooUser user = userRepo.findByEmailIgnoreCase(email);
         ListeningHistory history = listenHistoryRepo.findByUserHistory(user);
         List<Song> allHistorySongs = history.getHistorySongs();
-        return ResponseEntity.status(HttpStatus.OK).body(allHistorySongs);
+        return ResponseEntity.status(HttpStatus.OK).body(songHelper.getSongList(allHistorySongs, user));
         
     }
 

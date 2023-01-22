@@ -26,8 +26,10 @@ public class Homepage {
     }
 
     @GetMapping("/home/charts/top/{lang}")
-    public ResponseEntity<?> getTopCharts(@PathVariable String lang) {
-        return service.getTopCharts(lang);
+    public ResponseEntity<?> getTopCharts(@PathVariable String lang, HttpServletRequest httpRequest) {
+        String requestTokenHeader = httpRequest.getHeader("Authorization");
+        String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
+        return service.getTopCharts(lang, email);
     }
 
     @GetMapping("/artists")
@@ -89,6 +91,7 @@ public class Homepage {
         String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
         return service.searchRandomSongs(email);
     }
+
 
 
 }

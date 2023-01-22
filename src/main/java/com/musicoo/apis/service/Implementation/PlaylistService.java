@@ -1,6 +1,7 @@
 package com.musicoo.apis.service.Implementation;
 
 import com.amazonaws.Response;
+import com.musicoo.apis.controller.Auth.User;
 import com.musicoo.apis.helper.SongHelper;
 import com.musicoo.apis.model.MusicooArtist;
 import com.musicoo.apis.model.MusicooUser;
@@ -45,6 +46,9 @@ public class PlaylistService {
         UserPlaylist playlist = playlistRepo.findByIdAndMusicooUser(playlistId, user);
         List<Song> songs = playlist.getSongs();
         Song song = songRepo.findById(songId);
+        if (songs.contains(song)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("This song is already in the playlist");
+        }
         songs.add(song);
         playlist.setSongs(songs);
         playlistRepo.save(playlist);
@@ -101,8 +105,9 @@ public class PlaylistService {
             newSongList.remove(song);
             song.setLikes(song.getLikes()-1);
             userPlaylist.setSongs(newSongList);
+            songRepo.save(song);
             playlistRepo.save(userPlaylist);
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Song removed from liked");
+            return ResponseEntity.status(HttpStatus.OK).body("Song removed from liked");
         }
 
         newSongList.add(song);
@@ -113,7 +118,19 @@ public class PlaylistService {
         MusicooArtist artist = artistRepo.findMusicooArtistById(song.getArtist().getId());
         artist.setRatings(artist.getRatings()+1);
         return ResponseEntity.status(HttpStatus.OK).body("Song added to liked");
+    }
+
+    public ResponseEntity<?> removeFromPlaylist(long playlistId, long songId, String email) {
+        MusicooUser user = userRepo.findByEmailIgnoreCase(email);
+        UserPlaylist playlist = playlistRepo.findByIdAndMusicooUser(playlistId, user);
+        Song song = songRepo.findSongById(songId);
+        List<Song> songs = playlist.getSongs();
+        songs.remove(song);
+        playlist.setSongs(songs);
+        playlistRepo.save(playlist);
+        return ResponseEntity.status(HttpStatus.OK).body("Removed from " + playlist.getPlaylistName());
 
     }
+
 
 }
