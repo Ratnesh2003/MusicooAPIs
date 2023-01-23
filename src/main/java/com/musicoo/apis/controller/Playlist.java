@@ -73,7 +73,7 @@ public class Playlist {
 
     @DeleteMapping("/playlist/song/remove")
     @Transactional
-    public ResponseEntity<?> removeSongFromPlaylist(@RequestParam("playlistId") long playlistId, @RequestParam("songId") long songId, HttpServletRequest httpRequest) {
+    public ResponseEntity<?> removeSongFromPlaylist(@RequestParam("playlistId") long playlistId, @RequestParam("songId")     long songId, HttpServletRequest httpRequest) {
         String requestTokenHeader = httpRequest.getHeader("Authorization");
         String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
         return service.removeFromPlaylist(playlistId, songId, email);

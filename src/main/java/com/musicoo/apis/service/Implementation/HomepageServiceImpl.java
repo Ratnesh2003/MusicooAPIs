@@ -7,11 +7,21 @@ import com.musicoo.apis.payload.response.SongPreviewRes;
 import com.musicoo.apis.payload.response.SongRes;
 import com.musicoo.apis.repository.*;
 import com.musicoo.apis.service.HomepageService;
+import com.nimbusds.jose.shaded.gson.Gson;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import net.minidev.json.parser.JSONParser;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -55,6 +65,7 @@ public class HomepageServiceImpl implements HomepageService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<?> addToHistory(long songId, String email) {
         Song song = songRepo.findById(songId);
         MusicooUser user = userRepo.findByEmailIgnoreCase(email);
@@ -75,11 +86,13 @@ public class HomepageServiceImpl implements HomepageService {
         return ResponseEntity.status(HttpStatus.OK).body("Song added to history");
     }
 
+
     @Override
     public ResponseEntity<?> getRecentlyPlayed(String email) {
-        List<SongPreviewRes> songPreviewRes = (List<SongPreviewRes>) getFullHistory(email).getBody();
-        assert songPreviewRes != null;
-        return ResponseEntity.ok().body(songPreviewRes.stream().limit(10).collect(Collectors.toList()));
+        MusicooUser user = userRepo.findByEmailIgnoreCase(email);
+        ListeningHistory history = listenHistoryRepo.findByUserHistory(user);
+        List<Song> allHistorySongs = history.getHistorySongs();
+        return ResponseEntity.ok().body(songHelper.getSongList(allHistorySongs.stream().limit(10).collect(Collectors.toList()), user));
     }
 
     @Override
@@ -159,6 +172,37 @@ public class HomepageServiceImpl implements HomepageService {
         return likedPlaylist != null && likedPlaylist.getSongs().contains(song)
                 ? ResponseEntity.status(HttpStatus.OK).body(true)
                 : ResponseEntity.status(HttpStatus.OK).body(false);
+    }
+
+    public ResponseEntity<?> getLyrics(long songId) throws IOException, InterruptedException {
+        Song song = songRepo.findSongById(songId);
+        String songName = song.getSName().replace(" ", "%20");
+        System.out.println(songName);
+        HttpRequest songIdRequest = HttpRequest.newBuilder()
+                .uri(URI.create("https://genius-song-lyrics1.p.rapidapi.com/search/?q=" + songName))
+                .header("X-RapidAPI-Key", "71ad666c8bmshb0ee60aec893be6p158e71jsncbbdbccf7187")
+                .header("X-RapidAPI-Host", "genius-song-lyrics1.p.rapidapi.com")
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+        HttpResponse<String> songIdResponse = HttpClient.newHttpClient().send(songIdRequest, HttpResponse.BodyHandlers.ofString());
+        JSONObject json = new JSONObject(songIdResponse.body());
+        JSONArray hitsArray = json.getJSONArray("hits");
+        JSONObject firstHit = hitsArray.getJSONObject(0);
+        JSONObject result = firstHit.getJSONObject("result");
+        long lyricSongId = result.getLong("id");
+
+        HttpRequest songLyricsRequest = HttpRequest.newBuilder()
+                .uri(URI.create("https://genius-song-lyrics1.p.rapidapi.com/song/lyrics/?id=" + lyricSongId))
+                .header("X-RapidAPI-Key", "71ad666c8bmshb0ee60aec893be6p158e71jsncbbdbccf7187")
+                .header("X-RapidAPI-Host", "genius-song-lyrics1.p.rapidapi.com")
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+        HttpResponse<String> lyricsResponse = HttpClient.newHttpClient().send(songLyricsRequest, HttpResponse.BodyHandlers.ofString());
+        JSONObject lyricsJson = new JSONObject(lyricsResponse.body());
+        String lyrics = lyricsJson.getJSONObject("lyrics").getJSONObject("lyrics").getJSONObject("body").getString("html");
+
+
+        return ResponseEntity.ok().body(lyrics);
     }
 
 

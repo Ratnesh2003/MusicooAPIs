@@ -58,8 +58,9 @@ public class ArtistServicesImpl implements ArtistServices {
 
         try {
             String name = jsonSongDetails.get("name").toString();
+            String lang = jsonSongDetails.get("language").toString();
 
-            SongLanguage language = SongLanguage.valueOf(jsonSongDetails.get("language").toString().toUpperCase());
+            SongLanguage language = SongLanguage.valueOf(lang.substring(1, lang.length()-1).toUpperCase());
 
             Song newSong = new Song(
                     name.substring(1, name.length()-1),

@@ -51,6 +51,9 @@ public class Song {
     @JsonIgnore
     private List<ListeningHistory> listeningHistories;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date listenedAt;
+
 
     public Song(String sName, Date sRelease, int likes, SongLanguage language, float duration, String coverImagePath, String audioPath, MusicooArtist artist, Album album, Genre genre) {
         this.sName = sName;

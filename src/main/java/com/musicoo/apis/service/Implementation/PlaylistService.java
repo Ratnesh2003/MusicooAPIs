@@ -75,7 +75,7 @@ public class PlaylistService {
         MusicooUser user = userRepo.findByEmailIgnoreCase(email);
         UserPlaylist playlist = playlistRepo.findByPlaylistNameAndMusicooUser("Liked", user);
         List<Song> songs = playlist.getSongs();
-        return ResponseEntity.status(HttpStatus.OK).body(songs);
+        return ResponseEntity.status(HttpStatus.OK).body(songHelper.getSongList(songs, user));
     }
 
     public ResponseEntity<?> getSongsOfPlaylist(long pId, String email) {
