@@ -191,6 +191,7 @@ public class HomepageServiceImpl implements HomepageService {
         JSONObject result = firstHit.getJSONObject("result");
         long lyricSongId = result.getLong("id");
 
+
         HttpRequest songLyricsRequest = HttpRequest.newBuilder()
                 .uri(URI.create("https://genius-song-lyrics1.p.rapidapi.com/song/lyrics/?id=" + lyricSongId))
                 .header("X-RapidAPI-Key", "71ad666c8bmshb0ee60aec893be6p158e71jsncbbdbccf7187")

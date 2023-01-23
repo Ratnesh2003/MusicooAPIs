@@ -28,7 +28,7 @@ public class Homepage {
     }
 
     @GetMapping("/home/charts/top/{lang}")
-    public ResponseEntity<?> getTopCharts(@PathVariable String lang, HttpServletRequest httpRequest) {
+    public ResponseEntity<?> getTopCharts(@PathVariable String lang, HttpServletRequest httpRequest) throws IOException, InterruptedException {
         String requestTokenHeader = httpRequest.getHeader("Authorization");
         String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
         return service.getTopCharts(lang, email);
@@ -52,14 +52,14 @@ public class Homepage {
     }
 
     @GetMapping("/history")
-    public ResponseEntity<?> getFullHistory(HttpServletRequest httpRequest) {
+    public ResponseEntity<?> getFullHistory(HttpServletRequest httpRequest) throws IOException, InterruptedException {
         String requestTokenHeader = httpRequest.getHeader("Authorization");
         String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
         return service.getFullHistory(email);
     }
 
     @GetMapping("/recent")
-    public ResponseEntity<?> getRecentHistory(HttpServletRequest httpRequest) {
+    public ResponseEntity<?> getRecentHistory(HttpServletRequest httpRequest) throws IOException, InterruptedException {
         String requestTokenHeader = httpRequest.getHeader("Authorization");
         String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
         return service.getRecentlyPlayed(email);
@@ -76,7 +76,7 @@ public class Homepage {
     }
 
     @GetMapping("/song/{id}")
-    public ResponseEntity<?> getSong(@PathVariable Long id, HttpServletRequest httpRequest) {
+    public ResponseEntity<?> getSong(@PathVariable Long id, HttpServletRequest httpRequest) throws IOException, InterruptedException {
         String requestTokenHeader = httpRequest.getHeader("Authorization");
         String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
         return service.listenSong(id, email);
@@ -88,7 +88,7 @@ public class Homepage {
     }
 
     @GetMapping("/songs/random")
-    public ResponseEntity<?> randomSongs(HttpServletRequest httpRequest) {
+    public ResponseEntity<?> randomSongs(HttpServletRequest httpRequest) throws IOException, InterruptedException {
         String requestTokenHeader = httpRequest.getHeader("Authorization");
         String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
         return service.searchRandomSongs(email);

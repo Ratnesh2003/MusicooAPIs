@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RequestMapping("/api")
 @RequiredArgsConstructor
 @Controller
@@ -36,14 +38,14 @@ public class Playlist {
     }
 
     @GetMapping("/playlist/{id}")
-    public ResponseEntity<?> getSongsOfPlaylist(@PathVariable long id, HttpServletRequest httpRequest) {
+    public ResponseEntity<?> getSongsOfPlaylist(@PathVariable long id, HttpServletRequest httpRequest) throws IOException, InterruptedException {
         String requestTokenHeader = httpRequest.getHeader("Authorization");
         String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
         return service.getSongsOfPlaylist(id, email);
     }
 
     @GetMapping("/playlist/liked")
-    public ResponseEntity<?> getLikedSongs(HttpServletRequest httpRequest) {
+    public ResponseEntity<?> getLikedSongs(HttpServletRequest httpRequest) throws IOException, InterruptedException {
         String requestTokenHeader = httpRequest.getHeader("Authorization");
         String email = jwtUtil.getEmailFromToken(requestTokenHeader.substring(7));
         return service.getLikedSongs(email);

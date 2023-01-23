@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -71,14 +72,14 @@ public class PlaylistService {
         return ResponseEntity.status(HttpStatus.OK).body(userPlaylists);
     }
 
-    public ResponseEntity<?> getLikedSongs(String email) {
+    public ResponseEntity<?> getLikedSongs(String email) throws IOException, InterruptedException {
         MusicooUser user = userRepo.findByEmailIgnoreCase(email);
         UserPlaylist playlist = playlistRepo.findByPlaylistNameAndMusicooUser("Liked", user);
         List<Song> songs = playlist.getSongs();
         return ResponseEntity.status(HttpStatus.OK).body(songHelper.getSongList(songs, user));
     }
 
-    public ResponseEntity<?> getSongsOfPlaylist(long pId, String email) {
+    public ResponseEntity<?> getSongsOfPlaylist(long pId, String email) throws IOException, InterruptedException {
         MusicooUser user = userRepo.findByEmailIgnoreCase(email);
         UserPlaylist playlist = playlistRepo.findByIdAndMusicooUser(pId, user);
         List<Song> songs = playlist.getSongs();
