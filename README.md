@@ -68,12 +68,14 @@ Musicoo is built using the following technologies:
 To get started with Musicoo, follow these steps:
 
 1. Clone the repository on your local machine.
-2. Open the project in an IDE such as Android Studio or VS Code.
-3. Run the application on an emulator or a physical device.
+2. Open the project in an IDE such as IntelliJ.
+3. Launch the server from the IDE.
+4. To get the app for you can clone <a href="https://github.com/AyushRaghuvanshi/Musicoo">this</a> repository.
+5. Launch the app on an editor like VS Code or Android Studio.
 
 ## Collaboration
 
-Musicoo is a collaborative project between two developers, myself, and Ratnesh. I have worked on the frontend of the application using Flutter, while Ratnesh has developed the backend using Spring Boot. Together, we have created a powerful and user-friendly music streaming application that is easy to use and provides users with an immersive listening experience.
+Musicoo is a collaborative project between two developers, myself, and <a href="https://github.com/AyushRaghuvanshi">Ayush</a>. I have worked on the backend of the application using Spring Boot, while Ayush has developed the frontend using Flutter. Together, we have created a powerful and user-friendly music streaming application that is easy to use and provides users with an immersive listening experience.
 
 ## License
 
