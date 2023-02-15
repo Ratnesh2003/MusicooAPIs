@@ -91,6 +91,9 @@ public class HomepageServiceImpl implements HomepageService {
     public ResponseEntity<?> getRecentlyPlayed(String email) {
         MusicooUser user = userRepo.findByEmailIgnoreCase(email);
         ListeningHistory history = listenHistoryRepo.findByUserHistory(user);
+        if (history == null) {
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }
         List<Song> allHistorySongs = history.getHistorySongs();
         return ResponseEntity.ok().body(songHelper.getSongList(allHistorySongs.stream().limit(10).collect(Collectors.toList()), user));
     }
@@ -99,6 +102,9 @@ public class HomepageServiceImpl implements HomepageService {
     public ResponseEntity<?> getFullHistory(String email) {
         MusicooUser user = userRepo.findByEmailIgnoreCase(email);
         ListeningHistory history = listenHistoryRepo.findByUserHistory(user);
+        if (history == null) {
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }
         List<Song> allHistorySongs = history.getHistorySongs();
         return ResponseEntity.status(HttpStatus.OK).body(songHelper.getSongList(allHistorySongs, user));
         
@@ -177,7 +183,6 @@ public class HomepageServiceImpl implements HomepageService {
     public ResponseEntity<?> getLyrics(long songId) throws IOException, InterruptedException {
         Song song = songRepo.findSongById(songId);
         String songName = song.getSName().replace(" ", "%20");
-        System.out.println(songName);
         HttpRequest songIdRequest = HttpRequest.newBuilder()
                 .uri(URI.create("https://genius-song-lyrics1.p.rapidapi.com/search/?q=" + songName))
                 .header("X-RapidAPI-Key", "71ad666c8bmshb0ee60aec893be6p158e71jsncbbdbccf7187")
@@ -187,8 +192,7 @@ public class HomepageServiceImpl implements HomepageService {
         HttpResponse<String> songIdResponse = HttpClient.newHttpClient().send(songIdRequest, HttpResponse.BodyHandlers.ofString());
         JSONObject json = new JSONObject(songIdResponse.body());
         JSONArray hitsArray = json.getJSONArray("hits");
-        JSONObject firstHit = hitsArray.getJSONObject(0);
-        JSONObject result = firstHit.getJSONObject("result");
+        JSONObject result = hitsArray.getJSONObject(0).getJSONObject("result");
         long lyricSongId = result.getLong("id");
 
 
